@@ -39,8 +39,6 @@ class HomeActivityTest {
                 dummyMovie.size
             )
         )
-        onView(withId(R.id.rv_movies)).perform(swipeDown())
-        onView(withId(R.id.rv_movies)).perform(swipeUp())
     }
 
     @Test
@@ -75,8 +73,6 @@ class HomeActivityTest {
                 dummyTvShow.size
             )
         )
-        onView(withId(R.id.rv_tv_show)).perform(swipeDown())
-        onView(withId(R.id.rv_tv_show)).perform(swipeUp())
     }
 
     @Test

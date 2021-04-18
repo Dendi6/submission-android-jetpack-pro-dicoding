@@ -3,7 +3,6 @@ package com.dendi.filmscatalogs.ui.detail
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.lifecycle.ViewModelProvider
@@ -84,15 +83,9 @@ class DetailActivity : AppCompatActivity() {
             .load(filmEntity.images)
             .into(binding.imagesDetail)
 
-        val year = filmEntity.year
-        val title = filmEntity.title
-        val titleYears = getString(R.string.title_detail, title, year)
-        binding.titleDetail.text = titleYears
+        binding.titleDetail.text = filmEntity.title
         binding.dateRelease.text = filmEntity.dateRelease
-        val duration = filmEntity.duration
-        val genre = filmEntity.genre
-        val durationGenreText = getString(R.string.genre_duration, genre, duration)
-        binding.genreDuration.text = durationGenreText
+        binding.genreDuration.text = filmEntity.genre
         binding.overview.text = filmEntity.overview
     }
 

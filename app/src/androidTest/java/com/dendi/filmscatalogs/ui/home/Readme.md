@@ -11,24 +11,25 @@
     1. memastikan rv_movies dalam keadaan tampil
     2. gulir rv_movies ke posisi terakhir
     
-* Menampilkan detail Movies
-    1. Memberikan tindkan klik pada data pertama pada rv_movies
-    2. Memastikan TextView untuk title tampil sesuai dengan yang diharapkan.
-    3. Memastikan TextView untuk dateRelease tampil sesuai dengan yang diharapkan.
-    4. Memastikan TextView untuk genre tampil sesuai dengan yang diharapkan.
+* Menampilkan data detail Movies
+    1. Memberikan tindakan klik pada data pertama pada rv_movies
+    2. Memastikan TextView untuk title_detail tampil sesuai dengan yang diharapkan.
+    3. Memastikan TextView untuk date_release tampil sesuai dengan yang diharapkan.
+    4. Memastikan TextView untuk genre_duration tampil sesuai dengan yang diharapkan.
     5. Memastikan TextView untuk overview tampil sesuai dengan yang diharapkan.
-    6. Memastikan ImageView untuk image dapat ditampilkan.
+    6. Memastikan ImageView untuk images_detail dapat ditampilkan.
     7. Memastikan share icon dapat ditampilkan.
 
 * Menampilkan data Tv Show
     1. memastikan rv_tv_show dalam keadaan tampil
     2. gulir rv_tv_show ke posisi terakhir
  
-* Menampilkan detail Tv Show
-    1. Memberikan tindkan klik pada data pertama pada rv_tv_show
-    2. Memastikan TextView untuk title tampil sesuai dengan yang diharapkan.
-    3. Memastikan TextView untuk dateRelease tampil sesuai dengan yang diharapkan.
-    4. Memastikan TextView untuk genre tampil sesuai dengan yang diharapkan.
-    5. Memastikan TextView untuk overview tampil sesuai dengan yang diharapkan.
-    6. Memastikan ImageView untuk image dapat ditampilkan.
-    7. Memastikan share icon dapat ditampilkan.
+* Menampilkan data detail Tv Show
+    1. Klik TabLayout dengan teks tv show
+    2. Memberikan tindakan klik pada data pertama pada rv_tv_show
+    3. Memastikan TextView untuk title_detail tampil sesuai dengan yang diharapkan.
+    4. Memastikan TextView untuk date_release tampil sesuai dengan yang diharapkan.
+    5. Memastikan TextView untuk genre_duration tampil sesuai dengan yang diharapkan.
+    6. Memastikan TextView untuk overview tampil sesuai dengan yang diharapkan.
+    7. Memastikan ImageView untuk images_detail dapat ditampilkan.
+    8. Memastikan share icon dapat ditampilkan.

@@ -22,17 +22,18 @@ class MoviesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (activity != null){
-            val viewModel = ViewModelProvider(this,ViewModelProvider.NewInstanceFactory())[MoviesViewModel::class.java]
-            val movies = viewModel.getMovies()
+        val viewModel = ViewModelProvider(
+            this,
+            ViewModelProvider.NewInstanceFactory()
+        )[MoviesViewModel::class.java]
+        val movies = viewModel.getMovies()
 
-            val moviesAdapter = MoviesAdapter()
-            moviesAdapter.setMovies(movies)
+        val moviesAdapter = MoviesAdapter()
+        moviesAdapter.setMovies(movies)
 
-            val rvMovies:RecyclerView = view.findViewById(R.id.rv_movies)
-            rvMovies.layoutManager = LinearLayoutManager(context)
-            rvMovies.setHasFixedSize(true)
-            rvMovies.adapter = moviesAdapter
-        }
+        val rvMovies: RecyclerView = view.findViewById(R.id.rv_movies)
+        rvMovies.layoutManager = LinearLayoutManager(context)
+        rvMovies.setHasFixedSize(true)
+        rvMovies.adapter = moviesAdapter
     }
 }

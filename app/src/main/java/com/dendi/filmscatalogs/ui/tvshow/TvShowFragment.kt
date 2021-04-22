@@ -21,18 +21,18 @@ class TvShowFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (activity != null){
-            val viewModel = ViewModelProvider(this,
-                ViewModelProvider.NewInstanceFactory())[TvShowViewModel::class.java]
-            val tvShow = viewModel.getTvShow()
+        val viewModel = ViewModelProvider(
+            this,
+            ViewModelProvider.NewInstanceFactory()
+        )[TvShowViewModel::class.java]
+        val tvShow = viewModel.getTvShow()
 
-            val tvShowAdapter = TvShowAdapter()
-            tvShowAdapter.setTvShow(tvShow)
+        val tvShowAdapter = TvShowAdapter()
+        tvShowAdapter.setTvShow(tvShow)
 
-            val rvTvShow: RecyclerView = view.findViewById(R.id.rv_tv_show)
-            rvTvShow.layoutManager = LinearLayoutManager(context)
-            rvTvShow.setHasFixedSize(true)
-            rvTvShow.adapter = tvShowAdapter
-        }
+        val rvTvShow: RecyclerView = view.findViewById(R.id.rv_tv_show)
+        rvTvShow.layoutManager = LinearLayoutManager(context)
+        rvTvShow.setHasFixedSize(true)
+        rvTvShow.adapter = tvShowAdapter
     }
 }

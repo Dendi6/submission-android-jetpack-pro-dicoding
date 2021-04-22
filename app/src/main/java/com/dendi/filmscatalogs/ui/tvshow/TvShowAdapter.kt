@@ -18,6 +18,17 @@ class TvShowAdapter : RecyclerView.Adapter<TvShowAdapter.ContentViewHolder>() {
         this.listTvShow.addAll(tvShow)
     }
 
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContentViewHolder {
+        val itemsTvShow = FilmsItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return ContentViewHolder(itemsTvShow)
+    }
+
+    override fun onBindViewHolder(holder: ContentViewHolder, position: Int) {
+        holder.bind(listTvShow[position])
+    }
+
+    override fun getItemCount(): Int = listTvShow.size
+
     inner class ContentViewHolder(private val binding: FilmsItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(tvShow: FilmEntity) {
@@ -35,15 +46,4 @@ class TvShowAdapter : RecyclerView.Adapter<TvShowAdapter.ContentViewHolder>() {
             }
         }
     }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContentViewHolder {
-        val itemsTvShow = FilmsItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ContentViewHolder(itemsTvShow)
-    }
-
-    override fun onBindViewHolder(holder: ContentViewHolder, position: Int) {
-        holder.bind(listTvShow[position])
-    }
-
-    override fun getItemCount(): Int = listTvShow.size
 }

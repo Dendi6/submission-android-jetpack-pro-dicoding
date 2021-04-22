@@ -18,6 +18,17 @@ class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.ContentViewHolder>() {
         this.listMovies.addAll(movies)
     }
 
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContentViewHolder {
+        val itemsMovies = FilmsItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return ContentViewHolder(itemsMovies)
+    }
+
+    override fun onBindViewHolder(holder: ContentViewHolder, position: Int) {
+        holder.bind(listMovies[position])
+    }
+
+    override fun getItemCount(): Int = listMovies.size
+
     inner class ContentViewHolder(private val binding: FilmsItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(movies: FilmEntity) {
@@ -35,15 +46,4 @@ class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.ContentViewHolder>() {
             }
         }
     }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContentViewHolder {
-        val itemsMovies = FilmsItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ContentViewHolder(itemsMovies)
-    }
-
-    override fun onBindViewHolder(holder: ContentViewHolder, position: Int) {
-        holder.bind(listMovies[position])
-    }
-
-    override fun getItemCount(): Int = listMovies.size
 }

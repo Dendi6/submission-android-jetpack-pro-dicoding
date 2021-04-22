@@ -30,8 +30,10 @@ class DetailActivity : AppCompatActivity() {
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        supportActionBar?.elevation = 0f
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.apply {
+            elevation = 0f
+            setDisplayHomeAsUpEnabled(true)
+        }
 
         val viewModel = ViewModelProvider(
             this@DetailActivity,

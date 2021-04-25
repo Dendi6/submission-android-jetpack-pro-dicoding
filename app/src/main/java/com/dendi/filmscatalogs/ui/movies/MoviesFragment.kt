@@ -29,7 +29,7 @@ class MoviesFragment : Fragment() {
         val movies = viewModel.getMovies()
 
         val moviesAdapter = MoviesAdapter()
-        moviesAdapter.setMovies(movies)
+//        moviesAdapter.setMovies(movies)
 
         val rvMovies: RecyclerView = view.findViewById(R.id.rv_movies)
         rvMovies.layoutManager = LinearLayoutManager(context)

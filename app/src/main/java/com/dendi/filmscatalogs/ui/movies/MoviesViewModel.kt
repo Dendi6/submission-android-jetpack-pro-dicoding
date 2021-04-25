@@ -1,9 +1,43 @@
 package com.dendi.filmscatalogs.ui.movies
 
+import android.content.ContentValues.TAG
+import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.dendi.filmscatalogs.data.FilmEntity
-import com.dendi.filmscatalogs.utils.DataDummy
+import com.dendi.filmscatalogs.data.source.remote.network.ApiConfig
+import com.dendi.filmscatalogs.data.source.remote.response.MovieResponse
+import com.dendi.filmscatalogs.data.source.remote.response.ResultsItem
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
-class MoviesViewModel: ViewModel() {
-    fun getMovies( ):List<FilmEntity> = DataDummy.generateDummyMovies()
+class MoviesViewModel : ViewModel() {
+    val listUsers = MutableLiveData<ArrayList<FilmEntity>>()
+
+    fun getMovies() {
+        val client = ApiConfig.getApiService().getMovies()
+        client.enqueue(object : Callback<MovieResponse> {
+            override fun onResponse(
+                call: Call<MovieResponse>,
+                response: Response<MovieResponse>
+            ) {
+                if (response.isSuccessful) {
+                    Log.d(TAG, "Berhasil : ${response.body()?.results}")
+                    Log.d(TAG, "Berhasil : ${response.body()?.results?.size}")
+                } else {
+                    Log.e(TAG, "onFailure: ${response.message()}")
+                }
+            }
+
+            override fun onFailure(call: Call<MovieResponse>, t: Throwable) {
+                Log.e(TAG, "onFailure: ${t.message.toString()}")
+            }
+        })
+    }
+
+    fun getAllUsers(): LiveData<ArrayList<FilmEntity>> {
+        return listUsers
+    }
 }

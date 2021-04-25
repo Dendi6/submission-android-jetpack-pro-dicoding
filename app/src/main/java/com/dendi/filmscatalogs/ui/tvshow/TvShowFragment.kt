@@ -28,7 +28,7 @@ class TvShowFragment : Fragment() {
         val tvShow = viewModel.getTvShow()
 
         val tvShowAdapter = TvShowAdapter()
-        tvShowAdapter.setTvShow(tvShow)
+//        tvShowAdapter.setTvShow(tvShow)
 
         val rvTvShow: RecyclerView = view.findViewById(R.id.rv_tv_show)
         rvTvShow.layoutManager = LinearLayoutManager(context)

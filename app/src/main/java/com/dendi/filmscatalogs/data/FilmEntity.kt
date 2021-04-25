@@ -5,11 +5,11 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class FilmEntity(
-        var images: Int,
+        var images: Int? = null,
         var title: String,
-        var year: Int,
-        var duration: String,
-        var dateRelease : String,
-        var genre:String,
-        var overview: String
+        var year: Int? = null,
+        var duration: String? = null,
+        var dateRelease : String? = null,
+        var genre:String? = null,
+        var overview: String? = null
 ):Parcelable

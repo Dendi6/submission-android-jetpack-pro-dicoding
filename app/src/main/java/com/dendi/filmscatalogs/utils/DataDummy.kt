@@ -1,7 +1,7 @@
 package com.dendi.filmscatalogs.utils
 
 import com.dendi.filmscatalogs.R
-import com.dendi.filmscatalogs.data.FilmEntity
+import com.dendi.filmscatalogs.data.source.local.entity.FilmEntity
 
 object DataDummy {
     fun generateDummyMovies(): ArrayList<FilmEntity> {

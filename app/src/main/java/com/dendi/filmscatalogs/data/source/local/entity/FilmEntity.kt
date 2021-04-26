@@ -1,4 +1,4 @@
-package com.dendi.filmscatalogs.data
+package com.dendi.filmscatalogs.data.source.local.entity
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

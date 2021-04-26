@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.dendi.filmscatalogs.R
-import com.dendi.filmscatalogs.data.FilmEntity
+import com.dendi.filmscatalogs.data.source.local.entity.FilmEntity
 import com.dendi.filmscatalogs.databinding.ActivityDetailBinding
 
 class DetailActivity : AppCompatActivity() {

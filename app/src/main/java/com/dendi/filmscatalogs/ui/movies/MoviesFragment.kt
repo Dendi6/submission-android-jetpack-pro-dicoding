@@ -1,6 +1,7 @@
 package com.dendi.filmscatalogs.ui.movies
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -36,10 +37,10 @@ class MoviesFragment : Fragment() {
         rvMovies.setHasFixedSize(true)
         rvMovies.adapter = moviesAdapter
 
-        moviesViewModel.setMovies()
-//        viewModel.listReview.observe(this, { results ->
-//            Log.d("Berhasil : ",results.map { it }.toString() )
-//        })
+//        moviesViewModel.setMovies()
+        moviesViewModel.listReview.observe(this, { results ->
+            Log.d("Berhasil : ",results.map { it }.toString() )
+        })
 
     }
 }

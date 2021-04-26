@@ -1,11 +1,12 @@
 package com.dendi.filmscatalogs.ui.detail
 
 import com.dendi.filmscatalogs.utils.DataDummy
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Test
 
-class DetailActivityViewModelTest{
+class DetailActivityViewModelTest {
     private lateinit var viewModel: DetailActivityViewModel
     private val dummyDataMovies = DataDummy.generateDummyMovies()[5]
     private val dummyDataTvShow = DataDummy.generateDummyTvShow()[5]
@@ -13,12 +14,12 @@ class DetailActivityViewModelTest{
     private val tvShowTitle = dummyDataTvShow.title
 
     @Before
-    fun setup(){
+    fun setup() {
         viewModel = DetailActivityViewModel()
     }
 
     @Test
-    fun moviesDetail(){
+    fun moviesDetail() {
         viewModel.setMovieTitle(moviesTitle)
         val result = viewModel.getDetailMovieByTitle()
         assertNotNull(result)
@@ -32,7 +33,7 @@ class DetailActivityViewModelTest{
     }
 
     @Test
-    fun tvShowDetail(){
+    fun tvShowDetail() {
         viewModel.setTvShowTitle(tvShowTitle)
         val result = viewModel.getDetailTvShowByTitle()
         assertNotNull(result)

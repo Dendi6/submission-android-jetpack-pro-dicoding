@@ -19,7 +19,8 @@ class TvShowAdapter : RecyclerView.Adapter<TvShowAdapter.ContentViewHolder>() {
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContentViewHolder {
-        val itemsTvShow = FilmsItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val itemsTvShow =
+            FilmsItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ContentViewHolder(itemsTvShow)
     }
 

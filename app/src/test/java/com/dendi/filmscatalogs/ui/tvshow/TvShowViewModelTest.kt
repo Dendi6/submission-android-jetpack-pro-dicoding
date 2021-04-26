@@ -1,21 +1,22 @@
 package com.dendi.filmscatalogs.ui.tvshow
 
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Test
 
-class TvShowViewModelTest{
+class TvShowViewModelTest {
     private lateinit var viewModel: TvShowViewModel
 
     @Before
-    fun setup(){
+    fun setup() {
         viewModel = TvShowViewModel()
     }
 
     @Test
-    fun getTvShow(){
+    fun getTvShow() {
         val result = viewModel.getTvShow()
         assertNotNull(result)
-        assertEquals(10,result.size)
+        assertEquals(10, result.size)
     }
 }

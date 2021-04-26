@@ -1,10 +1,10 @@
 package com.dendi.filmscatalogs.ui.tvshow
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -28,7 +28,7 @@ class TvShowFragment : Fragment() {
         val tvShow = viewModel.getTvShow()
 
         val tvShowAdapter = TvShowAdapter()
-//        tvShowAdapter.setTvShow(tvShow)
+        tvShowAdapter.setTvShow(tvShow)
 
         val rvTvShow: RecyclerView = view.findViewById(R.id.rv_tv_show)
         rvTvShow.layoutManager = LinearLayoutManager(context)

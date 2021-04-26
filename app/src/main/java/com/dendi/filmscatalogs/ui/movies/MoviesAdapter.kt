@@ -5,21 +5,23 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.dendi.filmscatalogs.data.FilmEntity
+import com.dendi.filmscatalogs.data.source.local.entity.MoviesEntity
 import com.dendi.filmscatalogs.databinding.FilmsItemBinding
 import com.dendi.filmscatalogs.ui.detail.DetailActivity
 
 class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.ContentViewHolder>() {
-    private var listMovies = ArrayList<FilmEntity>()
+    private var listMovies = ArrayList<MoviesEntity>()
 
-    fun setMovies(movies: List<FilmEntity>?) {
+    fun setData(movies: List<MoviesEntity>?) {
         if (movies == null) return
-        this.listMovies.clear()
-        this.listMovies.addAll(movies)
+        listMovies.clear()
+        listMovies.addAll(movies)
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContentViewHolder {
-        val itemsMovies = FilmsItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val itemsMovies =
+            FilmsItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ContentViewHolder(itemsMovies)
     }
 
@@ -31,9 +33,9 @@ class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.ContentViewHolder>() {
 
     inner class ContentViewHolder(private val binding: FilmsItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(movies: FilmEntity) {
+        fun bind(movies: MoviesEntity) {
             binding.titleItem.text = movies.title
-            binding.dateItem.text = movies.dateRelease
+            binding.dateItem.text = movies.releaseDate
             Glide.with(itemView.context)
                 .load(movies.images)
                 .into(binding.imageItem)

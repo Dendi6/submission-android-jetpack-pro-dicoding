@@ -177,7 +177,8 @@ object DataDummy {
                 "March 28, 2019",
                 "Action & Adventure, Drama",
                 "This thriller and coming-of-age drama follows the journey of an extraordinary young girl as she evades the relentless pursuit of an off-book CIA agent and tries to unearth the truth behind who she is. Based on the 2011 Joe Wright film."
-            ))
+            )
+        )
         tvShow.add(
             FilmEntity(
                 R.drawable.poster_iron_fist,
@@ -200,7 +201,8 @@ object DataDummy {
                 "Animation, Action & Adventure, Sci-Fi & Fantasy",
                 "Naruto Shippuuden is the continuation of the original animated TV series Naruto.The story revolves around an older and slightly more matured Uzumaki Naruto and his quest to save his friend Uchiha Sasuke from the grips of the snake-like Shinobi, Orochimaru. After 2 and a half years Naruto finally returns to his village of Konoha, and sets about putting his ambitions to work, though it will not be easy, as He has amassed a few (more dangerous) enemies, in the likes of the shinobi organization; Akatsuki."
 
-            ))
+            )
+        )
         tvShow.add(
             FilmEntity(
                 R.drawable.poster_ncis,
@@ -210,7 +212,7 @@ object DataDummy {
                 "September 23, 2003",
                 "Crime, Action & Adventure, Drama",
                 "From murder and espionage to terrorism and stolen submarines, a team of special agents investigates any crime that has a shred of evidence connected to Navy and Marine Corps personnel, regardless of rank or position."
-                
+
             )
         )
         tvShow.add(

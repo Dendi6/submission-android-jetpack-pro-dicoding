@@ -79,7 +79,7 @@ class HomeActivityTest {
     }
 
     @Test
-    fun loadDetailTvShow(){
+    fun loadDetailTvShow() {
         onView(withText("Tv Show")).perform(click())
         onView(withId(R.id.rv_tv_show)).perform(
             RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(

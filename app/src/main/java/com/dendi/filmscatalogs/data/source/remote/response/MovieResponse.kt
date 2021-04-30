@@ -1,6 +1,8 @@
 package com.dendi.filmscatalogs.data.source.remote.response
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
 data class MovieResponse(
 
@@ -17,6 +19,7 @@ data class MovieResponse(
     val totalResults: Int
 )
 
+@Parcelize
 data class ResultsMovies(
 
     @field:SerializedName("id")
@@ -28,11 +31,6 @@ data class ResultsMovies(
     @field:SerializedName("poster_path")
     val posterPath: String,
 
-    @field:SerializedName("release_date")
-    val releaseDate: String,
-
     @field:SerializedName("overview")
     val overview: String,
-
-
-    )
+):Parcelable

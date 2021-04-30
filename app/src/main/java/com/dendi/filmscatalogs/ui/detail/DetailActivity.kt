@@ -5,15 +5,15 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.dendi.filmscatalogs.R
 import com.dendi.filmscatalogs.data.source.local.entity.FilmEntity
+import com.dendi.filmscatalogs.data.source.remote.response.ResultsMovies
+import com.dendi.filmscatalogs.data.source.remote.response.ResultsTv
 import com.dendi.filmscatalogs.databinding.ActivityDetailBinding
 
 class DetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailBinding
-    private lateinit var result: FilmEntity
 
     companion object {
         const val EXTRA_DATA = "extra_data"
@@ -34,25 +34,15 @@ class DetailActivity : AppCompatActivity() {
             elevation = 0f
             setDisplayHomeAsUpEnabled(true)
         }
-
-        val viewModel = ViewModelProvider(
-            this@DetailActivity,
-            ViewModelProvider.NewInstanceFactory()
-        )[DetailActivityViewModel::class.java]
-
-        val film = intent.getParcelableExtra<FilmEntity>(EXTRA_DATA) as FilmEntity
         val type = intent.getStringExtra(EXTRA_TYPE)
 
-        setActionBarTitle(film.title)
-        result = if (type == "movies") {
-            viewModel.setMovieTitle(film.title)
-            viewModel.getDetailMovieByTitle()
+        if(type=="movies"){
+            val film = intent.getParcelableExtra<ResultsMovies>(EXTRA_DATA) as ResultsMovies
+            setActionBarTitle(film.title)
         } else {
-            viewModel.setTvShowTitle(film.title)
-            viewModel.getDetailTvShowByTitle()
+            val film = intent.getParcelableExtra<ResultsTv>(EXTRA_DATA) as ResultsTv
+            setActionBarTitle(film.title)
         }
-
-        view(result)
     }
 
     private fun setActionBarTitle(title: String) {
@@ -74,8 +64,8 @@ class DetailActivity : AppCompatActivity() {
     private fun setMode(selectedMode: Int) {
         when (selectedMode) {
             R.id.share -> {
-                val films = intent.getParcelableExtra<FilmEntity>(EXTRA_DATA) as FilmEntity
-                share(films)
+//                val films = intent.getParcelableExtra<FilmEntity>(EXTRA_DATA) as FilmEntity
+//                share(films)
             }
         }
     }

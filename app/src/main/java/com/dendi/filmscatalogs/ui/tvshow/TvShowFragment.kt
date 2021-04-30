@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dendi.filmscatalogs.R
 
@@ -28,7 +28,7 @@ class TvShowFragment : Fragment() {
         val progressBar: ProgressBar = view.findViewById(R.id.progress_bar)
         val tvShowAdapter = TvShowAdapter()
 
-        rvTvShow.layoutManager = LinearLayoutManager(context)
+        rvTvShow.layoutManager = GridLayoutManager(context, 3)
         rvTvShow.setHasFixedSize(true)
         rvTvShow.adapter = tvShowAdapter
 

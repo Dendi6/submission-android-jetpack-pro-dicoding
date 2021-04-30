@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dendi.filmscatalogs.R
 
@@ -26,7 +26,7 @@ class MoviesFragment : Fragment() {
         val progressBar: ProgressBar = view.findViewById(R.id.progress_bar)
         val moviesAdapter = MoviesAdapter()
 
-        rvMovies.layoutManager = LinearLayoutManager(context)
+        rvMovies.layoutManager = GridLayoutManager(context, 3)
         rvMovies.setHasFixedSize(true)
         rvMovies.adapter = moviesAdapter
 

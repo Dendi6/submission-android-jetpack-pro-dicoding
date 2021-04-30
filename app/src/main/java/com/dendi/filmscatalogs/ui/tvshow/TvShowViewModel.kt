@@ -6,8 +6,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.dendi.filmscatalogs.data.source.remote.network.ApiConfig
-import com.dendi.filmscatalogs.data.source.remote.response.MovieResponse
-import com.dendi.filmscatalogs.data.source.remote.response.ResultsMovies
 import com.dendi.filmscatalogs.data.source.remote.response.ResultsTv
 import com.dendi.filmscatalogs.data.source.remote.response.TvResponse
 import retrofit2.Call
@@ -22,7 +20,6 @@ class TvShowViewModel : ViewModel() {
         client.enqueue(object : Callback<TvResponse> {
             override fun onResponse(call: Call<TvResponse>, response: Response<TvResponse>) {
                 if (response.isSuccessful) {
-                    Log.d("Item","Berhasil : ${response.body()}")
                     listTv.postValue(response.body()?.results)
                 } else {
                     Log.e(ContentValues.TAG, "onFailure: ${response.message()}")

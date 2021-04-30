@@ -21,7 +21,6 @@ class MoviesViewModel: ViewModel() {
         client.enqueue(object : Callback<MovieResponse> {
             override fun onResponse( call: Call<MovieResponse>, response: Response<MovieResponse>) {
                 if (response.isSuccessful) {
-                    Log.d("Item","Berhasil : ${response.body()}")
                     listMovies.postValue(response.body()?.results)
                 } else {
                     Log.e(TAG, "onFailure: ${response.message()}")

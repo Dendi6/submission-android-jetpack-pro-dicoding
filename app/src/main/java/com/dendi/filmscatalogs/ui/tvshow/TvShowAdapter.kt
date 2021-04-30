@@ -5,17 +5,19 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.dendi.filmscatalogs.BuildConfig
 import com.dendi.filmscatalogs.data.source.local.entity.FilmEntity
+import com.dendi.filmscatalogs.data.source.remote.response.ResultsTv
 import com.dendi.filmscatalogs.databinding.FilmsItemBinding
 import com.dendi.filmscatalogs.ui.detail.DetailActivity
 
 class TvShowAdapter : RecyclerView.Adapter<TvShowAdapter.ContentViewHolder>() {
-    private val listTvShow = ArrayList<FilmEntity>()
+    private val listTvShow = ArrayList<ResultsTv>()
 
-    fun setTvShow(tvShow: List<FilmEntity>?) {
-        if (tvShow == null) return
-        this.listTvShow.clear()
-        this.listTvShow.addAll(tvShow)
+    fun setTvShow(tvShow: List<ResultsTv>) {
+        listTvShow.clear()
+        listTvShow.addAll(tvShow)
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContentViewHolder {
@@ -32,19 +34,12 @@ class TvShowAdapter : RecyclerView.Adapter<TvShowAdapter.ContentViewHolder>() {
 
     inner class ContentViewHolder(private val binding: FilmsItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(tvShow: FilmEntity) {
-            binding.titleItem.text = tvShow.title
-            binding.dateItem.text = tvShow.dateRelease
+        fun bind(tvShow: ResultsTv) {
+            binding.titleItem.text = tvShow.name
+            binding.dateItem.text = tvShow.firstAirDate
             Glide.with(itemView.context)
-                .load(tvShow.images)
+                .load(BuildConfig.IMAGES + "/${tvShow.posterPath}")
                 .into(binding.imageItem)
-
-            itemView.setOnClickListener {
-                val intent = Intent(itemView.context, DetailActivity::class.java)
-                intent.putExtra(DetailActivity.EXTRA_DATA, tvShow)
-                intent.putExtra(DetailActivity.EXTRA_TYPE, "tvShow")
-                itemView.context.startActivity(intent)
-            }
         }
     }
 }

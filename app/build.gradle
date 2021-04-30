@@ -17,6 +17,9 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
+        buildConfigField("String", "BASE_URL", '"https://api.themoviedb.org/3/"')
+        buildConfigField("String", "TOKEN", '"7376a113360dff63dacea32cf90f8e7a"')
+        buildConfigField("String", "IMAGES", '"https://image.tmdb.org/t/p/w500"')
     }
 
     buildTypes {

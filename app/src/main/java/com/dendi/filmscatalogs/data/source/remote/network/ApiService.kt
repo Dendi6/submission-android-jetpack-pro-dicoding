@@ -1,5 +1,6 @@
 package com.dendi.filmscatalogs.data.source.remote.network
 
+import com.dendi.filmscatalogs.BuildConfig
 import com.dendi.filmscatalogs.data.source.remote.response.MovieResponse
 import retrofit2.Call
 import retrofit2.http.GET
@@ -9,6 +10,6 @@ interface ApiService {
 
     @GET("trending/movie/week")
     fun getMovies(
-        @Query("api_key") apiKey: String = "7376a113360dff63dacea32cf90f8e7a"
+        @Query("api_key") apiKey: String = BuildConfig.TOKEN
     ): Call<MovieResponse>
 }

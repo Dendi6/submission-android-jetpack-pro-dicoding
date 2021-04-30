@@ -10,10 +10,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.dendi.filmscatalogs.BuildConfig
 import com.dendi.filmscatalogs.R
-import com.dendi.filmscatalogs.data.source.local.entity.FilmEntity
 import com.dendi.filmscatalogs.data.source.remote.response.DetailResponse
-import com.dendi.filmscatalogs.data.source.remote.response.ResultsMovies
-import com.dendi.filmscatalogs.data.source.remote.response.ResultsTv
+import com.dendi.filmscatalogs.data.source.remote.response.ListResponse
 import com.dendi.filmscatalogs.databinding.ActivityDetailBinding
 
 class DetailActivity : AppCompatActivity() {
@@ -47,14 +45,13 @@ class DetailActivity : AppCompatActivity() {
             )
         showLoading(true)
 
+        val film = intent.getParcelableExtra<ListResponse>(EXTRA_DATA) as ListResponse
 
         if (type == "movies") {
-            val film = intent.getParcelableExtra<ResultsMovies>(EXTRA_DATA) as ResultsMovies
-            setActionBarTitle(film.title)
+            setActionBarTitle(film.title.toString())
             detailActivityViewModel.setDetailMovies(film.id)
         } else {
-            val film = intent.getParcelableExtra<ResultsTv>(EXTRA_DATA) as ResultsTv
-            setActionBarTitle(film.title)
+            setActionBarTitle(film.name.toString())
             detailActivityViewModel.setDetailTv(film.id)
         }
 
@@ -99,8 +96,8 @@ class DetailActivity : AppCompatActivity() {
     private fun setMode(selectedMode: Int) {
         when (selectedMode) {
             R.id.share -> {
-//                val films = intent.getParcelableExtra<FilmEntity>(EXTRA_DATA) as FilmEntity
-//                share(films)
+                val films = intent.getParcelableExtra<ListResponse>(EXTRA_DATA) as ListResponse
+                share(films)
             }
         }
     }
@@ -123,9 +120,16 @@ class DetailActivity : AppCompatActivity() {
         binding.overview.text = movies.overview
     }
 
-    private fun share(filmEntity: FilmEntity) {
-        val title = filmEntity.title
-        val overview = filmEntity.overview
+    private fun share(listResponse: ListResponse) {
+        val type = intent.getStringExtra(EXTRA_TYPE)
+
+        val title = if (type == "movies") {
+            listResponse.title
+        } else {
+            listResponse.name
+        }
+
+        val overview = listResponse.overview
         val textShare = getString(R.string.text_share, title, overview)
         val intent = Intent(Intent.ACTION_SEND)
         intent.putExtra(Intent.EXTRA_TEXT, textShare)

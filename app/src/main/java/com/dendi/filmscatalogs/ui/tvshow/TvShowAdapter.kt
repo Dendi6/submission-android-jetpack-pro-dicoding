@@ -6,14 +6,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.dendi.filmscatalogs.BuildConfig
-import com.dendi.filmscatalogs.data.source.remote.response.ResultsTv
+import com.dendi.filmscatalogs.data.source.remote.response.ListResponse
 import com.dendi.filmscatalogs.databinding.FilmsItemBinding
 import com.dendi.filmscatalogs.ui.detail.DetailActivity
 
 class TvShowAdapter : RecyclerView.Adapter<TvShowAdapter.ContentViewHolder>() {
-    private val listTvShow = ArrayList<ResultsTv>()
+    private val listTvShow = ArrayList<ListResponse>()
 
-    fun setTvShow(tvShow: List<ResultsTv>) {
+    fun setTvShow(tvShow: List<ListResponse>) {
         listTvShow.clear()
         listTvShow.addAll(tvShow)
         notifyDataSetChanged()
@@ -33,7 +33,7 @@ class TvShowAdapter : RecyclerView.Adapter<TvShowAdapter.ContentViewHolder>() {
 
     inner class ContentViewHolder(private val binding: FilmsItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(tvShow: ResultsTv) {
+        fun bind(tvShow: ListResponse) {
             Glide.with(itemView.context)
                 .load(BuildConfig.IMAGES + "/${tvShow.posterPath}")
                 .into(binding.imageItem)

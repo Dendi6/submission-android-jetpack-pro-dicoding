@@ -6,14 +6,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.dendi.filmscatalogs.BuildConfig
-import com.dendi.filmscatalogs.data.source.remote.response.ResultsMovies
+import com.dendi.filmscatalogs.data.source.remote.response.ListResponse
 import com.dendi.filmscatalogs.databinding.FilmsItemBinding
 import com.dendi.filmscatalogs.ui.detail.DetailActivity
 
 class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.ContentViewHolder>() {
-    private var listMovies = ArrayList<ResultsMovies>()
+    private var listMovies = ArrayList<ListResponse>()
 
-    fun setData(movies: ArrayList<ResultsMovies>) {
+    fun setData(movies: ArrayList<ListResponse>) {
         listMovies.clear()
         listMovies.addAll(movies)
         notifyDataSetChanged()
@@ -33,7 +33,7 @@ class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.ContentViewHolder>() {
 
     inner class ContentViewHolder(private val binding: FilmsItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(movies: ResultsMovies) {
+        fun bind(movies: ListResponse) {
             Glide.with(itemView.context)
                 .load(BuildConfig.IMAGES + "/${movies.posterPath}")
                 .into(binding.imageItem)

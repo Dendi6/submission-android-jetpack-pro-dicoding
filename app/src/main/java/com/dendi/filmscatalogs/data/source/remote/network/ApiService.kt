@@ -2,8 +2,7 @@ package com.dendi.filmscatalogs.data.source.remote.network
 
 import com.dendi.filmscatalogs.BuildConfig
 import com.dendi.filmscatalogs.data.source.remote.response.DetailResponse
-import com.dendi.filmscatalogs.data.source.remote.response.MovieResponse
-import com.dendi.filmscatalogs.data.source.remote.response.TvResponse
+import com.dendi.filmscatalogs.data.source.remote.response.ResponseItem
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -13,12 +12,12 @@ interface ApiService {
     @GET("trending/movie/week")
     fun getMovies(
         @Query("api_key") apiKey: String = BuildConfig.TOKEN
-    ): Call<MovieResponse>
+    ): Call<ResponseItem>
 
     @GET("trending/tv/week")
     fun getTv(
         @Query("api_key") apiKey: String = BuildConfig.TOKEN
-    ): Call<TvResponse>
+    ): Call<ResponseItem>
 
     @GET("movie/{movie_id}")
     fun detailMovies(

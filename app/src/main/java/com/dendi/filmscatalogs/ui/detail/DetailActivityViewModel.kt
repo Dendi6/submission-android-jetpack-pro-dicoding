@@ -14,10 +14,13 @@ import retrofit2.Response
 class DetailActivityViewModel : ViewModel() {
     val dataDetail = MutableLiveData<DetailResponse>()
 
-    fun setDetailMovies(id:Int){
+    fun setDetailMovies(id: Int) {
         val client = ApiConfig.getApiService().detailMovies(id)
         client.enqueue(object : Callback<DetailResponse> {
-            override fun onResponse(call: Call<DetailResponse>, response: Response<DetailResponse>) {
+            override fun onResponse(
+                call: Call<DetailResponse>,
+                response: Response<DetailResponse>
+            ) {
                 if (response.isSuccessful) {
                     dataDetail.postValue(response.body())
                 } else {
@@ -31,12 +34,15 @@ class DetailActivityViewModel : ViewModel() {
         })
     }
 
-    fun setDetailTv(id:Int){
+    fun setDetailTv(id: Int) {
         val client = ApiConfig.getApiService().detailTv(id)
         client.enqueue(object : Callback<DetailResponse> {
-            override fun onResponse(call: Call<DetailResponse>, response: Response<DetailResponse>) {
+            override fun onResponse(
+                call: Call<DetailResponse>,
+                response: Response<DetailResponse>
+            ) {
                 if (response.isSuccessful) {
-                    Log.d("berhasil",response.body().toString())
+                    Log.d("berhasil", response.body().toString())
                     dataDetail.postValue(response.body())
                 } else {
                     Log.e(ContentValues.TAG, "onFailure: ${response.message()}")

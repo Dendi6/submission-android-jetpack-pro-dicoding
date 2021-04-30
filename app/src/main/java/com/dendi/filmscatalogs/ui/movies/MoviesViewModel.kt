@@ -12,14 +12,14 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class MoviesViewModel: ViewModel() {
+class MoviesViewModel : ViewModel() {
 
     val listMovies = MutableLiveData<ArrayList<ListResponse>>()
 
     fun setMovies() {
         val client = ApiConfig.getApiService().getMovies()
         client.enqueue(object : Callback<ResponseItem> {
-            override fun onResponse( call: Call<ResponseItem>, response: Response<ResponseItem>) {
+            override fun onResponse(call: Call<ResponseItem>, response: Response<ResponseItem>) {
                 if (response.isSuccessful) {
                     listMovies.postValue(response.body()?.results)
                 } else {

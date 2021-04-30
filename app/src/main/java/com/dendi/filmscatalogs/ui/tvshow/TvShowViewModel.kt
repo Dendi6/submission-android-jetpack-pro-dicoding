@@ -15,7 +15,7 @@ import retrofit2.Response
 class TvShowViewModel : ViewModel() {
     val listTv = MutableLiveData<ArrayList<ListResponse>>()
 
-    fun setTv (){
+    fun setTv() {
         val client = ApiConfig.getApiService().getTv()
         client.enqueue(object : Callback<ResponseItem> {
             override fun onResponse(call: Call<ResponseItem>, response: Response<ResponseItem>) {

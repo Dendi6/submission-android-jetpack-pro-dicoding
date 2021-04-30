@@ -13,9 +13,13 @@ import com.dendi.filmscatalogs.R
 
 class MoviesFragment : Fragment() {
 
-    private lateinit var moviesViewModel:MoviesViewModel
+    private lateinit var moviesViewModel: MoviesViewModel
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_movies, container, false)
     }
 
@@ -32,7 +36,10 @@ class MoviesFragment : Fragment() {
 
         progressBar.visibility = View.VISIBLE
 
-        moviesViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(MoviesViewModel::class.java)
+        moviesViewModel = ViewModelProvider(
+            this,
+            ViewModelProvider.NewInstanceFactory()
+        ).get(MoviesViewModel::class.java)
         moviesViewModel.setMovies()
         moviesViewModel.getMovies().observe(this, { listMovies ->
             moviesAdapter.setData(listMovies)

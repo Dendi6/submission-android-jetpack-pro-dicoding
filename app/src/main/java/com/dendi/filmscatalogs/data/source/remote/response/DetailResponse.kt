@@ -16,9 +16,6 @@ data class DetailResponse(
     @field:SerializedName("name")
     val name: String? = null,
 
-    @field:SerializedName("vote_average")
-    val voteAverage: Float,
-
     @field:SerializedName("overview")
     val overview: String? = null,
 )

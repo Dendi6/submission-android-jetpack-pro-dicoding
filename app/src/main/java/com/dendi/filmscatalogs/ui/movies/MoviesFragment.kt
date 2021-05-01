@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dendi.filmscatalogs.R
+import com.dendi.filmscatalogs.viewmodel.ViewModelFactory
 
 class MoviesFragment : Fragment() {
 
@@ -36,14 +37,10 @@ class MoviesFragment : Fragment() {
 
         progressBar.visibility = View.VISIBLE
 
-        moviesViewModel = ViewModelProvider(
-            this,
-            ViewModelProvider.NewInstanceFactory()
-        ).get(MoviesViewModel::class.java)
-        moviesViewModel.setMovies()
-        moviesViewModel.getMovies().observe(this, { listMovies ->
-            moviesAdapter.setData(listMovies)
-            progressBar.visibility = View.GONE
-        })
+        val factory = ViewModelFactory.getInstance(requireActivity())
+        moviesViewModel = ViewModelProvider(this, factory)[MoviesViewModel::class.java]
+        val response = moviesViewModel.getMovies()
+        moviesAdapter.setData(response)
+        progressBar.visibility = View.GONE
     }
 }

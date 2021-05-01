@@ -10,9 +10,9 @@ import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.dendi.filmscatalogs.BuildConfig
 import com.dendi.filmscatalogs.R
-import com.dendi.filmscatalogs.data.source.remote.response.DetailResponse
-import com.dendi.filmscatalogs.data.source.remote.response.ListResponse
+import com.dendi.filmscatalogs.data.source.local.entity.ListEntity
 import com.dendi.filmscatalogs.databinding.ActivityDetailBinding
+import com.dendi.filmscatalogs.viewmodel.ViewModelFactory
 
 class DetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailBinding
@@ -39,26 +39,23 @@ class DetailActivity : AppCompatActivity() {
         }
 
         val type = intent.getStringExtra(EXTRA_TYPE)
-        detailActivityViewModel =
-            ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(
-                DetailActivityViewModel::class.java
-            )
+        val factory = ViewModelFactory.getInstance(this)
+        val film = intent.getParcelableExtra<ListEntity>(EXTRA_DATA) as ListEntity
         showLoading(true)
 
-        val film = intent.getParcelableExtra<ListResponse>(EXTRA_DATA) as ListResponse
+        detailActivityViewModel = ViewModelProvider(this, factory)[DetailActivityViewModel::class.java]
 
         if (type == "movies") {
             setActionBarTitle(film.title.toString())
-            detailActivityViewModel.setDetailMovies(film.id)
+            detailActivityViewModel.setSelectedFilm(film.id)
+            view(detailActivityViewModel.getMovies())
         } else {
             setActionBarTitle(film.name.toString())
-            detailActivityViewModel.setDetailTv(film.id)
+            detailActivityViewModel.setSelectedFilm(film.id)
+            view(detailActivityViewModel.getTvShow())
         }
 
-        detailActivityViewModel.getDetail().observe(this, { dataDetail ->
-            view(dataDetail)
-            showLoading(false)
-        })
+        showLoading(false)
     }
 
     private fun showLoading(state: Boolean) {
@@ -96,40 +93,39 @@ class DetailActivity : AppCompatActivity() {
     private fun setMode(selectedMode: Int) {
         when (selectedMode) {
             R.id.share -> {
-                val films = intent.getParcelableExtra<ListResponse>(EXTRA_DATA) as ListResponse
+                val films = intent.getParcelableExtra<ListEntity>(EXTRA_DATA) as ListEntity
                 share(films)
             }
         }
     }
 
-    private fun view(movies: DetailResponse) {
+    private fun view(movies : ListEntity) {
         Glide.with(this)
-            .load(BuildConfig.IMAGES + "/${movies.backdropPath}")
+            .load(BuildConfig.IMAGES + "/${movies.poster}")
             .into(binding.imagesDetail)
 
-        val text: String
         val type = intent.getStringExtra(EXTRA_TYPE)
 
-        text = if (type == "movies") {
-            "${movies.title} ( ${movies.voteAverage} )"
+        val text: String = if (type == "movies") {
+            "${movies.title}"
         } else {
-            "${movies.name} ( ${movies.voteAverage} )"
+            "${movies.name}"
         }
 
         binding.titleDetail.text = text
         binding.overview.text = movies.overview
     }
 
-    private fun share(listResponse: ListResponse) {
+    private fun share(listEntity: ListEntity) {
         val type = intent.getStringExtra(EXTRA_TYPE)
 
         val title = if (type == "movies") {
-            listResponse.title
+            listEntity.title
         } else {
-            listResponse.name
+            listEntity.name
         }
 
-        val overview = listResponse.overview
+        val overview = listEntity.overview
         val textShare = getString(R.string.text_share, title, overview)
         val intent = Intent(Intent.ACTION_SEND)
         intent.putExtra(Intent.EXTRA_TEXT, textShare)

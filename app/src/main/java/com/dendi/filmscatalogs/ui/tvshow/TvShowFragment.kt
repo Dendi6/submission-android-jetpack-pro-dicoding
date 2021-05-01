@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dendi.filmscatalogs.R
+import com.dendi.filmscatalogs.viewmodel.ViewModelFactory
 
 class TvShowFragment : Fragment() {
     private lateinit var tvShowViewModel: TvShowViewModel
@@ -34,14 +35,10 @@ class TvShowFragment : Fragment() {
 
         progressBar.visibility = View.VISIBLE
 
-        tvShowViewModel = ViewModelProvider(
-            this,
-            ViewModelProvider.NewInstanceFactory()
-        ).get(TvShowViewModel::class.java)
-        tvShowViewModel.setTv()
-        tvShowViewModel.getTv().observe(this, { listTv ->
-            tvShowAdapter.setTvShow(listTv)
-            progressBar.visibility = View.GONE
-        })
+        val factory = ViewModelFactory.getInstance(requireActivity())
+        tvShowViewModel = ViewModelProvider(this, factory)[TvShowViewModel::class.java]
+        val response = tvShowViewModel.getTvShow()
+        tvShowAdapter.setTvShow(response)
+        progressBar.visibility = View.GONE
     }
 }

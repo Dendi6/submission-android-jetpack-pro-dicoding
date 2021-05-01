@@ -18,6 +18,9 @@ data class ListResponse(
     @field:SerializedName("poster_path")
     val posterPath: String? = null,
 
+    @field:SerializedName("backdrop_path")
+    val backdropPath: String? = null,
+
     @field:SerializedName("overview")
     val overview: String? = null,
 ) : Parcelable

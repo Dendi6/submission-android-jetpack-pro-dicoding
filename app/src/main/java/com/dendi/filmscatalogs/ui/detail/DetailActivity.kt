@@ -2,6 +2,7 @@ package com.dendi.filmscatalogs.ui.detail
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -41,22 +42,25 @@ class DetailActivity : AppCompatActivity() {
         val type = intent.getStringExtra(EXTRA_TYPE)
         val factory = ViewModelFactory.getInstance(this)
         val film = intent.getParcelableExtra<ListEntity>(EXTRA_DATA) as ListEntity
-        showLoading(true)
 
+        showLoading(true)
         detailActivityViewModel =
             ViewModelProvider(this, factory)[DetailActivityViewModel::class.java]
+        detailActivityViewModel.setSelectedFilm(film.id)
 
         if (type == "movies") {
             setActionBarTitle(film.title.toString())
-            detailActivityViewModel.setSelectedFilm(film.id)
-            view(detailActivityViewModel.getMovies())
+            detailActivityViewModel.getMovies().observe(this, {
+                view(it)
+                showLoading(false)
+            })
         } else {
             setActionBarTitle(film.name.toString())
-            detailActivityViewModel.setSelectedFilm(film.id)
-            view(detailActivityViewModel.getTvShow())
+            detailActivityViewModel.getTvShow().observe(this,{
+                view(it)
+                showLoading(false)
+            })
         }
-
-        showLoading(false)
     }
 
     private fun showLoading(state: Boolean) {

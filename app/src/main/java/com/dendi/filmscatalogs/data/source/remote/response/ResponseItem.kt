@@ -10,7 +10,7 @@ data class ResponseItem(
     val totalPages: Int,
 
     @field:SerializedName("results")
-    val results: ArrayList<ListResponse>,
+    val results: List<ListResponse>,
 
     @field:SerializedName("total_results")
     val totalResults: Int

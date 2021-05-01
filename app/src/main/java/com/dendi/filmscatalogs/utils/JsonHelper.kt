@@ -41,6 +41,7 @@ class JsonHelper(private val context: Context) {
         } catch (e: JSONException) {
             e.printStackTrace()
         }
+
         return list
     }
 

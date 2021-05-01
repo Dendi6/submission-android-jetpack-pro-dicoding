@@ -1,5 +1,6 @@
 package com.dendi.filmscatalogs.ui.detail
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.dendi.filmscatalogs.data.FilmRepository
 import com.dendi.filmscatalogs.data.source.local.entity.ListEntity
@@ -11,7 +12,7 @@ class DetailActivityViewModel(private val filmRepository: FilmRepository) : View
         this.id = id
     }
 
-    fun getMovies(): ListEntity = filmRepository.getDetailMovies(id)
+    fun getMovies(): LiveData<ListEntity> = filmRepository.getDetailMovies(id)
 
-    fun getTvShow(): ListEntity = filmRepository.getDetailTvShow(id)
+    fun getTvShow(): LiveData<ListEntity> = filmRepository.getDetailTvShow(id)
 }

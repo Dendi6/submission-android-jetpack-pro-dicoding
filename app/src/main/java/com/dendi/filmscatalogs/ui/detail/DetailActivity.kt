@@ -43,7 +43,8 @@ class DetailActivity : AppCompatActivity() {
         val film = intent.getParcelableExtra<ListEntity>(EXTRA_DATA) as ListEntity
         showLoading(true)
 
-        detailActivityViewModel = ViewModelProvider(this, factory)[DetailActivityViewModel::class.java]
+        detailActivityViewModel =
+            ViewModelProvider(this, factory)[DetailActivityViewModel::class.java]
 
         if (type == "movies") {
             setActionBarTitle(film.title.toString())
@@ -99,7 +100,7 @@ class DetailActivity : AppCompatActivity() {
         }
     }
 
-    private fun view(movies : ListEntity) {
+    private fun view(movies: ListEntity) {
         Glide.with(this)
             .load(BuildConfig.IMAGES + "/${movies.poster}")
             .into(binding.imagesDetail)

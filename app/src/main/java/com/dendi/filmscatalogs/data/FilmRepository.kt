@@ -72,7 +72,7 @@ class FilmRepository private constructor(private val remoteDataSource: RemoteDat
         return movies
     }
 
-    override fun getDetailTvShow(id:Int):ListEntity{
+    override fun getDetailTvShow(id: Int): ListEntity {
         val tvShowResponses = remoteDataSource.getAllTvShow()
         lateinit var tvShow: ListEntity
         for (response in tvShowResponses) {

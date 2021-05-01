@@ -8,6 +8,7 @@ interface FilmDataSource {
 
     fun getAllTvShow(): List<ListEntity>
 
-    fun getDetailMovies(id:Int): ListEntity
+    fun getDetailMovies(id: Int): ListEntity
+
     fun getDetailTvShow(id: Int): ListEntity
 }

@@ -1,14 +1,12 @@
 package com.dendi.filmscatalogs.di
 
-import android.content.Context
 import com.dendi.filmscatalogs.data.FilmRepository
 import com.dendi.filmscatalogs.data.source.remote.RemoteDataSource
-import com.dendi.filmscatalogs.utils.JsonHelper
 
 object Injection {
-    fun provideRepository(context: Context): FilmRepository {
+    fun provideRepository(): FilmRepository {
 
-        val remoteDataSource = RemoteDataSource.getInstance(JsonHelper(context))
+        val remoteDataSource = RemoteDataSource.getInstance()
 
         return FilmRepository.getInstance(remoteDataSource)
     }

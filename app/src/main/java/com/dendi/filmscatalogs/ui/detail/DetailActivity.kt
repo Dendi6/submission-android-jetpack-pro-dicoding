@@ -40,7 +40,7 @@ class DetailActivity : AppCompatActivity() {
         }
 
         val type = intent.getStringExtra(EXTRA_TYPE)
-        val factory = ViewModelFactory.getInstance(this)
+        val factory = ViewModelFactory.getInstance()
         val film = intent.getParcelableExtra<ListEntity>(EXTRA_DATA) as ListEntity
 
         showLoading(true)

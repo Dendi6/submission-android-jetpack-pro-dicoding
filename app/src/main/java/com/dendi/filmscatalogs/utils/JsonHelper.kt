@@ -1,6 +1,7 @@
 package com.dendi.filmscatalogs.utils
 
 import android.content.Context
+import com.dendi.filmscatalogs.data.source.remote.response.DetailResponse
 import com.dendi.filmscatalogs.data.source.remote.response.ListResponse
 import org.json.JSONException
 import org.json.JSONObject
@@ -66,5 +67,53 @@ class JsonHelper(private val context: Context) {
             e.printStackTrace()
         }
         return list
+    }
+
+    fun getDetailMovies(id: Int): DetailResponse {
+        lateinit var detail: DetailResponse
+        try {
+            val responseObject = JSONObject(parsingFileToString("Movies.json").toString())
+            val listArray = responseObject.getJSONArray("results")
+            for (i in 0 until listArray.length()) {
+                val movie = listArray.getJSONObject(i)
+                val idItem = movie.getInt("id")
+                if (idItem == id) {
+                    val title = movie.getString("title")
+                    val poster = movie.getString("backdrop_path")
+                    val overview = movie.getString("overview")
+
+                    detail = DetailResponse(id, poster, title, null, overview)
+                    break
+                }
+            }
+        } catch (e: JSONException) {
+            e.printStackTrace()
+        }
+
+        return detail
+    }
+
+    fun getDetailTvShow(id: Int): DetailResponse {
+        lateinit var detail: DetailResponse
+        try {
+            val responseObject = JSONObject(parsingFileToString("TvShow.json").toString())
+            val listArray = responseObject.getJSONArray("results")
+            for (i in 0 until listArray.length()) {
+                val movie = listArray.getJSONObject(i)
+                val idItem = movie.getInt("id")
+                if (idItem == id) {
+                    val name = movie.getString("name")
+                    val poster = movie.getString("backdrop_path")
+                    val overview = movie.getString("overview")
+
+                    detail = DetailResponse(id, poster, null, name, overview)
+                    break
+                }
+            }
+        } catch (e: JSONException) {
+            e.printStackTrace()
+        }
+
+        return detail
     }
 }

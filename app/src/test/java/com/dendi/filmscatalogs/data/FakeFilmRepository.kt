@@ -8,17 +8,7 @@ import com.dendi.filmscatalogs.data.source.remote.RemoteDataSource
 import com.dendi.filmscatalogs.data.source.remote.response.DetailResponse
 import com.dendi.filmscatalogs.data.source.remote.response.ListResponse
 
-class FilmRepository private constructor(private val remoteDataSource: RemoteDataSource) :
-    FilmDataSource {
-    companion object {
-        @Volatile
-        private var instance: FilmRepository? = null
-
-        fun getInstance(remoteData: RemoteDataSource): FilmRepository =
-            instance ?: synchronized(this) {
-                instance ?: FilmRepository(remoteData).apply { instance = this }
-            }
-    }
+class FakeFilmRepository(private val remoteDataSource: RemoteDataSource) : FilmDataSource {
 
     override fun getAllMovies(): LiveData<List<ListEntity>> {
         val moviesResults = MutableLiveData<List<ListEntity>>()

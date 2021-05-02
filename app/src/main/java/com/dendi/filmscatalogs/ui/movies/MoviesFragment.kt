@@ -40,7 +40,7 @@ class MoviesFragment : Fragment() {
         val factory = ViewModelFactory.getInstance(requireActivity())
         moviesViewModel = ViewModelProvider(this, factory)[MoviesViewModel::class.java]
 
-        moviesViewModel.getMovies().observe(this, {listMovie ->
+        moviesViewModel.getMovies().observe(this, { listMovie ->
             moviesAdapter.setData(listMovie)
             progressBar.visibility = View.GONE
         })

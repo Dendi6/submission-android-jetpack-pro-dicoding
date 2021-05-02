@@ -2,7 +2,6 @@ package com.dendi.filmscatalogs.ui.detail
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -11,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.dendi.filmscatalogs.BuildConfig
 import com.dendi.filmscatalogs.R
+import com.dendi.filmscatalogs.data.source.local.entity.DetailEntity
 import com.dendi.filmscatalogs.data.source.local.entity.ListEntity
 import com.dendi.filmscatalogs.databinding.ActivityDetailBinding
 import com.dendi.filmscatalogs.viewmodel.ViewModelFactory
@@ -56,7 +56,7 @@ class DetailActivity : AppCompatActivity() {
             })
         } else {
             setActionBarTitle(film.name.toString())
-            detailActivityViewModel.getTvShow().observe(this,{
+            detailActivityViewModel.getTvShow().observe(this, {
                 view(it)
                 showLoading(false)
             })
@@ -104,7 +104,7 @@ class DetailActivity : AppCompatActivity() {
         }
     }
 
-    private fun view(movies: ListEntity) {
+    private fun view(movies: DetailEntity) {
         Glide.with(this)
             .load(BuildConfig.IMAGES + "/${movies.poster}")
             .into(binding.imagesDetail)

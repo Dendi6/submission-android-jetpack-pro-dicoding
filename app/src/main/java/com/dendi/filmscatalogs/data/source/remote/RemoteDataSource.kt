@@ -2,6 +2,7 @@ package com.dendi.filmscatalogs.data.source.remote
 
 import android.os.Handler
 import android.os.Looper
+import com.dendi.filmscatalogs.data.source.remote.response.DetailResponse
 import com.dendi.filmscatalogs.data.source.remote.response.ListResponse
 import com.dendi.filmscatalogs.utils.JsonHelper
 
@@ -21,11 +22,31 @@ class RemoteDataSource private constructor(private val jsonHelper: JsonHelper) {
     }
 
     fun getAllMovies(callback: LoadAllMoviesCallback) {
-        handler.postDelayed({ callback.onAllMoviesReceived(jsonHelper.getMovies()) }, SERVICE_LATENCY_IN_MILLIS)
+        handler.postDelayed(
+            { callback.onAllMoviesReceived(jsonHelper.getMovies()) },
+            SERVICE_LATENCY_IN_MILLIS
+        )
     }
 
     fun getAllTvShow(callback: LoadAllTvCallback) {
-        handler.postDelayed({ callback.onAllTvShowReceived(jsonHelper.getTvShow()) }, SERVICE_LATENCY_IN_MILLIS)
+        handler.postDelayed(
+            { callback.onAllTvShowReceived(jsonHelper.getTvShow()) },
+            SERVICE_LATENCY_IN_MILLIS
+        )
+    }
+
+    fun getDetailMovies(id: Int, callback: LoadDetailMovieCallback) {
+        handler.postDelayed(
+            { callback.onDetailMovieReceived(jsonHelper.getDetailMovies(id)) },
+            SERVICE_LATENCY_IN_MILLIS
+        )
+    }
+
+    fun getDetailTvShow(id: Int, callback: LoadDetailTvShowCallback) {
+        handler.postDelayed(
+            { callback.onDetailTvShowReceived(jsonHelper.getDetailTvShow(id)) },
+            SERVICE_LATENCY_IN_MILLIS
+        )
     }
 
     interface LoadAllMoviesCallback {
@@ -34,5 +55,13 @@ class RemoteDataSource private constructor(private val jsonHelper: JsonHelper) {
 
     interface LoadAllTvCallback {
         fun onAllTvShowReceived(tvShowReponse: List<ListResponse>)
+    }
+
+    interface LoadDetailMovieCallback {
+        fun onDetailMovieReceived(movieDetailResponse: DetailResponse)
+    }
+
+    interface LoadDetailTvShowCallback {
+        fun onDetailTvShowReceived(tvShowDetailResponse: DetailResponse)
     }
 }

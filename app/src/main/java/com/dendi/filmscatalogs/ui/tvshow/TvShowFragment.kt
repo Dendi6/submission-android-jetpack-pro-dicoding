@@ -38,7 +38,7 @@ class TvShowFragment : Fragment() {
         val factory = ViewModelFactory.getInstance(requireActivity())
         tvShowViewModel = ViewModelProvider(this, factory)[TvShowViewModel::class.java]
 
-        tvShowViewModel.getTvShow().observe(this,{listTvShow ->
+        tvShowViewModel.getTvShow().observe(this, { listTvShow ->
             tvShowAdapter.setTvShow(listTvShow)
             progressBar.visibility = View.GONE
         })

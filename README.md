@@ -2,7 +2,7 @@
 This application has created for finish class in dicoding.com. Improve this code if you have a idea.
 
 # Branch
-[submisson 1](https://github.com/Dendi6/Submission-Android-Jetpack-Pro-Dicoding/tree/submission1)
+[submisson 1](https://github.com/Dendi6/Submission-Android-Jetpack-Pro-Dicoding/tree/submission1)<br>
 [submisson 2](https://github.com/Dendi6/Submission-Android-Jetpack-Pro-Dicoding/tree/submission2)
 
 # Instalasi

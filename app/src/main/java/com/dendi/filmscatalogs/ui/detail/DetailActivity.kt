@@ -46,7 +46,7 @@ class DetailActivity : AppCompatActivity() {
         showLoading(true)
         detailActivityViewModel =
             ViewModelProvider(this, factory)[DetailActivityViewModel::class.java]
-        detailActivityViewModel.setSelectedFilm(film.id)
+        film.id?.let { detailActivityViewModel.setSelectedFilm(it) }
 
         if (type == "movies") {
             setActionBarTitle(film.title.toString())

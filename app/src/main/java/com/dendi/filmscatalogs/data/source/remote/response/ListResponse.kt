@@ -7,7 +7,7 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class ListResponse(
     @field:SerializedName("id")
-    val id: Int,
+    val id: Int? = 0,
 
     @field:SerializedName("title")
     val title: String? = null,

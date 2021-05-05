@@ -27,16 +27,18 @@ class FilmRepository private constructor(private val remoteDataSource: RemoteDat
             override fun onAllMoviesReceived(moviesResponses: List<ListResponse>) {
                 val listItem = ArrayList<ListEntity>()
                 for (response in moviesResponses) {
-                    val item = ListEntity(
-                        response.id,
-                        response.title,
-                        null,
-                        response.posterPath,
-                        response.backdropPath,
-                        response.overview
-                    )
+                    val item = response.id?.let {
+                        ListEntity(
+                            it,
+                            response.title,
+                            null,
+                            response.posterPath,
+                            response.backdropPath,
+                            response.overview
+                        )
+                    }
 
-                    listItem.add(item)
+                    item?.let { listItem.add(it) }
                 }
 
                 moviesResults.postValue(listItem)
@@ -54,16 +56,18 @@ class FilmRepository private constructor(private val remoteDataSource: RemoteDat
                 val listItem = ArrayList<ListEntity>()
 
                 for (response in tvShowReponse) {
-                    val item = ListEntity(
-                        response.id,
-                        null,
-                        response.name,
-                        response.posterPath,
-                        response.backdropPath,
-                        response.overview
-                    )
+                    val item = response.id?.let {
+                        ListEntity(
+                            it,
+                            null,
+                            response.name,
+                            response.posterPath,
+                            response.backdropPath,
+                            response.overview
+                        )
+                    }
 
-                    listItem.add(item)
+                    item?.let { listItem.add(it) }
                 }
                 tvShowResults.postValue(listItem)
             }

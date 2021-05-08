@@ -2,29 +2,50 @@ package com.dendi.filmscatalogs.data
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.dendi.filmscatalogs.data.source.local.LocalDataSource
 import com.dendi.filmscatalogs.data.source.local.entity.DetailEntity
 import com.dendi.filmscatalogs.data.source.local.entity.ListEntity
+import com.dendi.filmscatalogs.data.source.remote.ApiResponse
 import com.dendi.filmscatalogs.data.source.remote.RemoteDataSource
 import com.dendi.filmscatalogs.data.source.remote.response.DetailResponse
 import com.dendi.filmscatalogs.data.source.remote.response.ListResponse
+import com.dendi.filmscatalogs.utils.AppExecutors
+import com.dendi.filmscatalogs.vo.Resource
 
-class FilmRepository private constructor(private val remoteDataSource: RemoteDataSource) :
+class FilmRepository private constructor(
+    private val remoteDataSource: RemoteDataSource,
+    private val localDataSource: LocalDataSource,
+    private val appExecutors: AppExecutors
+) :
     FilmDataSource {
     companion object {
         @Volatile
         private var instance: FilmRepository? = null
 
-        fun getInstance(remoteData: RemoteDataSource): FilmRepository =
+        fun getInstance(
+            remoteData: RemoteDataSource,
+            localData: LocalDataSource,
+            appExecutors: AppExecutors
+        ): FilmRepository =
             instance ?: synchronized(this) {
-                instance ?: FilmRepository(remoteData).apply { instance = this }
+                instance ?: FilmRepository(remoteData, localData, appExecutors).apply {
+                    instance = this
+                }
             }
     }
 
-    override fun getAllMovies(): LiveData<List<ListEntity>> {
-        val moviesResults = MutableLiveData<List<ListEntity>>()
+    override fun getAllMovies(): LiveData<Resource<List<ListEntity>>> {
+        return object : NetworkBoundResource<List<ListEntity>, List<ListResponse>>(appExecutors) {
+            public override fun loadFromDB(): LiveData<List<ListEntity>> =
+                localDataSource.getItems()
 
-        remoteDataSource.getAllMovies(object : RemoteDataSource.LoadAllMoviesCallback {
-            override fun onAllMoviesReceived(moviesResponses: List<ListResponse>) {
+            override fun shouldFetch(data: List<ListEntity>?): Boolean =
+                data == null || data.isEmpty()
+
+            public override fun createCall(): LiveData<ApiResponse<List<ListResponse>>> =
+                remoteDataSource.getAllMovies()
+
+            public override fun saveCallResult(moviesResponses: List<ListResponse>) {
                 val listItem = ArrayList<ListEntity>()
                 for (response in moviesResponses) {
                     val item = response.id?.let {
@@ -41,11 +62,9 @@ class FilmRepository private constructor(private val remoteDataSource: RemoteDat
                     item?.let { listItem.add(it) }
                 }
 
-                moviesResults.postValue(listItem)
+                localDataSource.insertFilm(listItem)
             }
-        })
-
-        return moviesResults
+        }.asLiveData()
     }
 
     override fun getAllTvShow(): LiveData<List<ListEntity>> {

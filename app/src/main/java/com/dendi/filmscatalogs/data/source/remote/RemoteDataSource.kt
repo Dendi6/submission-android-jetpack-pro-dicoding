@@ -2,6 +2,8 @@ package com.dendi.filmscatalogs.data.source.remote
 
 import android.content.ContentValues
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.dendi.filmscatalogs.data.source.remote.network.ApiConfig
 import com.dendi.filmscatalogs.data.source.remote.response.DetailResponse
 import com.dendi.filmscatalogs.data.source.remote.response.ListResponse
@@ -22,8 +24,11 @@ class RemoteDataSource {
             }
     }
 
-    fun getAllMovies(callback: LoadAllMoviesCallback) {
+    fun getAllMovies(): LiveData<ApiResponse<List<ListResponse>>> {
         EspressoIdlingResource.increment()
+        val resultFilm = MutableLiveData<ApiResponse<List<ListResponse>>>()
+
+        //api request
         val client = ApiConfig.getApiService().getMovies()
         client.enqueue(object : Callback<ResponseItem> {
             override fun onResponse(
@@ -31,7 +36,7 @@ class RemoteDataSource {
                 response: Response<ResponseItem>
             ) {
                 if (response.isSuccessful) {
-                    response.body()?.let { callback.onAllMoviesReceived(it.results) }
+                    resultFilm.value = response.body()?.let { ApiResponse.success(it.results) }
                     EspressoIdlingResource.decrement()
                 } else {
                     Log.e(ContentValues.TAG, "onFailure: ${response.message()}")
@@ -44,6 +49,8 @@ class RemoteDataSource {
                 EspressoIdlingResource.decrement()
             }
         })
+
+        return resultFilm
     }
 
     fun getAllTvShow(callback: LoadAllTvCallback) {
@@ -116,10 +123,6 @@ class RemoteDataSource {
                 EspressoIdlingResource.decrement()
             }
         })
-    }
-
-    interface LoadAllMoviesCallback {
-        fun onAllMoviesReceived(moviesResponses: List<ListResponse>)
     }
 
     interface LoadAllTvCallback {

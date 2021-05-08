@@ -3,10 +3,11 @@ package com.dendi.filmscatalogs.data
 import androidx.lifecycle.LiveData
 import com.dendi.filmscatalogs.data.source.local.entity.DetailEntity
 import com.dendi.filmscatalogs.data.source.local.entity.ListEntity
+import com.dendi.filmscatalogs.vo.Resource
 
 interface FilmDataSource {
 
-    fun getAllMovies(): LiveData<List<ListEntity>>
+    fun getAllMovies(): LiveData<Resource<List<ListEntity>>>
 
     fun getAllTvShow(): LiveData<List<ListEntity>>
 

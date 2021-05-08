@@ -30,6 +30,9 @@ data class ListEntity(
     @ColumnInfo(name = "overview")
     var overview: String? = null,
 
-    @ColumnInfo(name = "bookmarked")
+    @ColumnInfo(name = "favorited")
     var favorited: Boolean = false,
+
+    @ColumnInfo(name = "type")
+    var type: String? = null,
 ) : Parcelable

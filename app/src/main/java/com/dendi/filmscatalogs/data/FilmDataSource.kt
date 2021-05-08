@@ -9,7 +9,7 @@ interface FilmDataSource {
 
     fun getAllMovies(): LiveData<Resource<List<ListEntity>>>
 
-    fun getAllTvShow(): LiveData<List<ListEntity>>
+    fun getAllTvShow(): LiveData<Resource<List<ListEntity>>>
 
     fun getDetailMovies(id: Int): LiveData<DetailEntity>
 

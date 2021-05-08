@@ -54,8 +54,6 @@ class MoviesFragment : Fragment() {
                     }
                 }
             }
-//            moviesAdapter.setData(listMovie)
-//            progressBar.visibility = View.GONE
         })
     }
 }

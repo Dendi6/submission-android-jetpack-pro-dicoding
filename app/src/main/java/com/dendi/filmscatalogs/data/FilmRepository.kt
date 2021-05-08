@@ -37,7 +37,7 @@ class FilmRepository private constructor(
     override fun getAllMovies(): LiveData<Resource<List<ListEntity>>> {
         return object : NetworkBoundResource<List<ListEntity>, List<ListResponse>>(appExecutors) {
             public override fun loadFromDB(): LiveData<List<ListEntity>> =
-                localDataSource.getItems()
+                localDataSource.getMovies()
 
             override fun shouldFetch(data: List<ListEntity>?): Boolean =
                 data == null || data.isEmpty()
@@ -45,9 +45,9 @@ class FilmRepository private constructor(
             public override fun createCall(): LiveData<ApiResponse<List<ListResponse>>> =
                 remoteDataSource.getAllMovies()
 
-            public override fun saveCallResult(moviesResponses: List<ListResponse>) {
+            public override fun saveCallResult(data: List<ListResponse>) {
                 val listItem = ArrayList<ListEntity>()
-                for (response in moviesResponses) {
+                for (response in data) {
                     val item = response.id?.let {
                         ListEntity(
                             it,
@@ -55,7 +55,9 @@ class FilmRepository private constructor(
                             null,
                             response.posterPath,
                             response.backdropPath,
-                            response.overview
+                            response.overview,
+                            false,
+                            "movies"
                         )
                     }
 
@@ -67,14 +69,20 @@ class FilmRepository private constructor(
         }.asLiveData()
     }
 
-    override fun getAllTvShow(): LiveData<List<ListEntity>> {
-        val tvShowResults = MutableLiveData<List<ListEntity>>()
+    override fun getAllTvShow(): LiveData<Resource<List<ListEntity>>> {
+        return object : NetworkBoundResource<List<ListEntity>, List<ListResponse>>(appExecutors) {
+            public override fun loadFromDB(): LiveData<List<ListEntity>> =
+                localDataSource.getTvShow()
 
-        remoteDataSource.getAllTvShow(object : RemoteDataSource.LoadAllTvCallback {
-            override fun onAllTvShowReceived(tvShowReponse: List<ListResponse>) {
+            override fun shouldFetch(data: List<ListEntity>?): Boolean =
+                data == null || data.isEmpty()
+
+            public override fun createCall(): LiveData<ApiResponse<List<ListResponse>>> =
+                remoteDataSource.getAllTvShow()
+
+            public override fun saveCallResult(data: List<ListResponse>) {
                 val listItem = ArrayList<ListEntity>()
-
-                for (response in tvShowReponse) {
+                for (response in data) {
                     val item = response.id?.let {
                         ListEntity(
                             it,
@@ -82,17 +90,18 @@ class FilmRepository private constructor(
                             response.name,
                             response.posterPath,
                             response.backdropPath,
-                            response.overview
+                            response.overview,
+                            false,
+                            "tv"
                         )
                     }
 
                     item?.let { listItem.add(it) }
                 }
-                tvShowResults.postValue(listItem)
-            }
-        })
 
-        return tvShowResults
+                localDataSource.insertFilm(listItem)
+            }
+        }.asLiveData()
     }
 
     override fun getDetailMovies(id: Int): LiveData<DetailEntity> {

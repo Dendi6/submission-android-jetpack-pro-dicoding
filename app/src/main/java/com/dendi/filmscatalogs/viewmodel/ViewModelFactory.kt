@@ -6,8 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.dendi.filmscatalogs.data.FilmRepository
 import com.dendi.filmscatalogs.di.Injection
 import com.dendi.filmscatalogs.ui.detail.DetailActivityViewModel
-import com.dendi.filmscatalogs.ui.movies.MoviesViewModel
-import com.dendi.filmscatalogs.ui.tvshow.TvShowViewModel
+import com.dendi.filmscatalogs.ui.home.HomeViewModel
 
 class ViewModelFactory private constructor(private val mFilmsRepository: FilmRepository) :
     ViewModelProvider.NewInstanceFactory() {
@@ -27,11 +26,8 @@ class ViewModelFactory private constructor(private val mFilmsRepository: FilmRep
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return when {
-            modelClass.isAssignableFrom(MoviesViewModel::class.java) -> {
-                MoviesViewModel(mFilmsRepository) as T
-            }
-            modelClass.isAssignableFrom(TvShowViewModel::class.java) -> {
-                TvShowViewModel(mFilmsRepository) as T
+            modelClass.isAssignableFrom(HomeViewModel::class.java) -> {
+                HomeViewModel(mFilmsRepository) as T
             }
             modelClass.isAssignableFrom(DetailActivityViewModel::class.java) -> {
                 DetailActivityViewModel(mFilmsRepository) as T

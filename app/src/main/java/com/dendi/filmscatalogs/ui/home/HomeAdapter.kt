@@ -1,4 +1,4 @@
-package com.dendi.filmscatalogs.ui.movies
+package com.dendi.filmscatalogs.ui.home
 
 import android.content.Intent
 import android.view.LayoutInflater
@@ -10,12 +10,12 @@ import com.dendi.filmscatalogs.data.source.local.entity.ListEntity
 import com.dendi.filmscatalogs.databinding.FilmsItemBinding
 import com.dendi.filmscatalogs.ui.detail.DetailActivity
 
-class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.ContentViewHolder>() {
-    private var listMovies = ArrayList<ListEntity>()
+class HomeAdapter : RecyclerView.Adapter<HomeAdapter.ContentViewHolder>() {
+    private var mData = ArrayList<ListEntity>()
 
-    fun setData(movies: List<ListEntity>) {
-        listMovies.clear()
-        listMovies.addAll(movies)
+    fun setData(list: List<ListEntity>) {
+        mData.clear()
+        mData.addAll(list)
         notifyDataSetChanged()
     }
 
@@ -26,22 +26,21 @@ class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.ContentViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: ContentViewHolder, position: Int) {
-        holder.bind(listMovies[position])
+        holder.bind(mData[position])
     }
 
-    override fun getItemCount(): Int = listMovies.size
+    override fun getItemCount(): Int = mData.size
 
     inner class ContentViewHolder(private val binding: FilmsItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(movies: ListEntity) {
+        fun bind(data: ListEntity) {
             Glide.with(itemView.context)
-                .load(BuildConfig.IMAGES + "/${movies.images}")
+                .load(BuildConfig.IMAGES + "/${data.images}")
                 .into(binding.imageItem)
 
             itemView.setOnClickListener {
                 val intent = Intent(itemView.context, DetailActivity::class.java)
-                intent.putExtra(DetailActivity.EXTRA_DATA, movies)
-                intent.putExtra(DetailActivity.EXTRA_TYPE, "movies")
+                intent.putExtra(DetailActivity.EXTRA_DATA, data)
                 itemView.context.startActivity(intent)
             }
         }

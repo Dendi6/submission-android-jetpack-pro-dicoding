@@ -23,7 +23,6 @@ class DetailActivity : AppCompatActivity() {
 
     companion object {
         const val EXTRA_DATA = "extra_data"
-        const val EXTRA_TYPE = "extra_type"
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -41,16 +40,13 @@ class DetailActivity : AppCompatActivity() {
             setDisplayHomeAsUpEnabled(true)
         }
 
-        val type = intent.getStringExtra(EXTRA_TYPE)
         val factory = ViewModelFactory.getInstance(this)
         val film = intent.getParcelableExtra<ListEntity>(EXTRA_DATA) as ListEntity
 
-//        showLoading(true)
-        detailActivityViewModel =
-            ViewModelProvider(this, factory)[DetailActivityViewModel::class.java]
-        film.id?.let { detailActivityViewModel.setSelectedFilm(it) }
+        detailActivityViewModel = ViewModelProvider(this, factory)[DetailActivityViewModel::class.java]
+        detailActivityViewModel.setSelectedFilm(film.id)
 
-        if (type == "movies") {
+        if (film.type == "movies") {
             setActionBarTitle(film.title.toString())
             detailActivityViewModel.getMovies().observe(this, { detailMovies ->
                 if (detailMovies != null) {
@@ -125,30 +121,31 @@ class DetailActivity : AppCompatActivity() {
                 val films = intent.getParcelableExtra<ListEntity>(EXTRA_DATA) as ListEntity
                 share(films)
             }
+            R.id.action_bookmark -> {
+                Toast.makeText(this,"Bookmarked",Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
-    private fun view(movies: DetailEntity) {
+    private fun view(data: DetailEntity) {
         Glide.with(this)
-            .load(BuildConfig.IMAGES + "/${movies.poster}")
+            .load(BuildConfig.IMAGES + "/${data.poster}")
             .into(binding.imagesDetail)
 
-        val type = intent.getStringExtra(EXTRA_TYPE)
+        val film = intent.getParcelableExtra<ListEntity>(EXTRA_DATA) as ListEntity
 
-        val text: String = if (type == "movies") {
-            "${movies.title}"
+        val text: String = if (film.type == "movies") {
+            "${data.title}"
         } else {
-            "${movies.name}"
+            "${data.name}"
         }
 
         binding.titleDetail.text = text
-        binding.overview.text = movies.overview
+        binding.overview.text = data.overview
     }
 
     private fun share(listEntity: ListEntity) {
-        val type = intent.getStringExtra(EXTRA_TYPE)
-
-        val title = if (type == "movies") {
+        val title = if (listEntity.type == "movies") {
             listEntity.title
         } else {
             listEntity.name

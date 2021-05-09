@@ -4,7 +4,7 @@ This application has created for finish class in dicoding.com. Improve this code
 # Branch
 [submission 1](https://github.com/Dendi6/Submission-Android-Jetpack-Pro-Dicoding/tree/submission1)<br>
 [submission 2](https://github.com/Dendi6/Submission-Android-Jetpack-Pro-Dicoding/tree/submission2)<br>
-[submission 3](https://github.com/Dendi6/Submission-Android-Jetpack-Pro-Dicoding/tree/submission2)
+[submission 3](https://github.com/Dendi6/Submission-Android-Jetpack-Pro-Dicoding/tree/submission3)
 
 # Instalasi
 `git clone -b <branch name> https://github.com/Dendi6/Submission-Android-Jetpack-Pro-Dicoding.git`

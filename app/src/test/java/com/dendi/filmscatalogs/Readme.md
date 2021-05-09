@@ -1,13 +1,12 @@
 ## Unit Testing Aplikasi Submission dicoding 
 
-* MoviesViewModelTest
+* HomeViewModelTest
     - Memuat Movies :
         1. Memanipulasi data ketika pemanggilan data Movies di kelas repository.
         2. Memastikan metode di kelas repository terpanggil.
         3. Memastikan data Movies tidak null.
         4. Memastikan jumlah data Movies sesuai dengan yang diharapkan.
-        
-* TvShowViewModelTest
+
     - Memuat Tv Show :
         1. Memanipulasi data ketika pemanggilan data Tv Show di kelas repository.
         2. Memastikan metode di kelas repository terpanggil.
@@ -20,3 +19,10 @@
         2. Memastikan metode di kelas repository terpanggil.
         3. Memastikan data pilihan tidak null.
         4. Memastikan data pilihan sesuai dengan yang diharapkan.
+
+* FavoriteViewModel
+    - Memuat data Favorite :
+        1. Memanipulasi data ketika pemanggilan data Favorite di kelas repository.
+        2. Memastikan metode di kelas repository terpanggil.
+        3. Memastikan data Favorite tidak null.
+        4. Memastikan jumlah data Favorite sesuai dengan yang diharapkan.

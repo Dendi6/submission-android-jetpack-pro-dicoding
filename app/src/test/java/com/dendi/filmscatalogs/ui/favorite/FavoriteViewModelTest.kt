@@ -1,4 +1,4 @@
-package com.dendi.filmscatalogs.ui.movies
+package com.dendi.filmscatalogs.ui.favorite
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
@@ -18,8 +18,8 @@ import org.mockito.Mockito.verify
 import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
-class MoviesViewModelTest {
-    private lateinit var viewModel: MoviesViewModel
+class FavoriteViewModelTest {
+    private lateinit var viewModel: FavoriteViewModel
 
     @get:Rule
     var instantTaskExecutorRule = InstantTaskExecutorRule()
@@ -31,23 +31,24 @@ class MoviesViewModelTest {
     private lateinit var observer: Observer<List<ListEntity>>
 
     @Before
-    fun setup() {
-        viewModel = MoviesViewModel(filmRepository)
+    fun setUp() {
+        viewModel = FavoriteViewModel(filmRepository)
     }
 
     @Test
-    fun getMovies() {
-        val dummyData = DataDummy.generateDummyMovies()
-        val data = MutableLiveData<List<ListEntity>>()
-        data.value = dummyData
+    fun getFavorited() {
+        val dummyCourses = DataDummy.generateDummyMovies()
+        val courses = MutableLiveData<List<ListEntity>>()
+        courses.value = dummyCourses
 
-        `when`(filmRepository.getAllMovies()).thenReturn(data)
-        val moviesData = viewModel.getMovies().value
-        verify(filmRepository).getAllMovies()
-        assertNotNull(moviesData)
-        assertEquals(2, moviesData?.size)
+        `when`(filmRepository.getFavorited()).thenReturn(courses)
+        val courseEntities = viewModel.getFavorite().value
+        verify(filmRepository).getFavorited()
 
-        viewModel.getMovies().observeForever(observer)
-        verify(observer).onChanged(dummyData)
+        assertNotNull(courseEntities)
+        assertEquals(1, courseEntities?.size)
+
+        viewModel.getFavorite().observeForever(observer)
+        verify(observer).onChanged(dummyCourses)
     }
 }

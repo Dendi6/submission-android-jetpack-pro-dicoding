@@ -2,104 +2,147 @@ package com.dendi.filmscatalogs.data
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.dendi.filmscatalogs.data.source.local.LocalDataSource
 import com.dendi.filmscatalogs.data.source.local.entity.DetailEntity
 import com.dendi.filmscatalogs.data.source.local.entity.ListEntity
+import com.dendi.filmscatalogs.data.source.remote.ApiResponse
 import com.dendi.filmscatalogs.data.source.remote.RemoteDataSource
 import com.dendi.filmscatalogs.data.source.remote.response.DetailResponse
 import com.dendi.filmscatalogs.data.source.remote.response.ListResponse
+import com.dendi.filmscatalogs.utils.AppExecutors
+import com.dendi.filmscatalogs.vo.Resource
 
-class FakeFilmRepository(private val remoteDataSource: RemoteDataSource) : FilmDataSource {
+class FakeFilmRepository constructor(
+    private val remoteDataSource: RemoteDataSource,
+    private val localDataSource: LocalDataSource,
+    private val appExecutors: AppExecutors
+) :
+    FilmDataSource {
 
-    override fun getAllMovies(): LiveData<List<ListEntity>> {
-        val moviesResults = MutableLiveData<List<ListEntity>>()
+    override fun getAllMovies(): LiveData<Resource<List<ListEntity>>> {
+        return object : NetworkBoundResource<List<ListEntity>, List<ListResponse>>(appExecutors) {
+            public override fun loadFromDB(): LiveData<List<ListEntity>> =
+                localDataSource.getMovies()
 
-        remoteDataSource.getAllMovies(object : RemoteDataSource.LoadAllMoviesCallback {
-            override fun onAllMoviesReceived(moviesResponses: List<ListResponse>) {
+            override fun shouldFetch(data: List<ListEntity>?): Boolean =
+                data == null || data.isEmpty()
+
+            public override fun createCall(): LiveData<ApiResponse<List<ListResponse>>> =
+                remoteDataSource.getAllMovies()
+
+            public override fun saveCallResult(data: List<ListResponse>) {
                 val listItem = ArrayList<ListEntity>()
-                for (response in moviesResponses) {
-                    val item = ListEntity(
-                        response.id,
-                        response.title,
-                        null,
-                        response.posterPath,
-                        response.backdropPath,
-                        response.overview
-                    )
+                for (response in data) {
+                    val item = response.id?.let {
+                        ListEntity(
+                            it,
+                            response.title,
+                            null,
+                            response.posterPath,
+                            response.backdropPath,
+                            response.overview,
+                            false,
+                            "movies"
+                        )
+                    }
 
-                    listItem.add(item)
+                    item?.let { listItem.add(it) }
                 }
 
-                moviesResults.postValue(listItem)
+                localDataSource.insertFilm(listItem)
             }
-        })
-
-        return moviesResults
+        }.asLiveData()
     }
 
-    override fun getAllTvShow(): LiveData<List<ListEntity>> {
-        val tvShowResults = MutableLiveData<List<ListEntity>>()
+    override fun getAllTvShow(): LiveData<Resource<List<ListEntity>>> {
+        return object : NetworkBoundResource<List<ListEntity>, List<ListResponse>>(appExecutors) {
+            public override fun loadFromDB(): LiveData<List<ListEntity>> =
+                localDataSource.getTvShow()
 
-        remoteDataSource.getAllTvShow(object : RemoteDataSource.LoadAllTvCallback {
-            override fun onAllTvShowReceived(tvShowReponse: List<ListResponse>) {
+            override fun shouldFetch(data: List<ListEntity>?): Boolean =
+                data == null || data.isEmpty()
+
+            public override fun createCall(): LiveData<ApiResponse<List<ListResponse>>> =
+                remoteDataSource.getAllTvShow()
+
+            public override fun saveCallResult(data: List<ListResponse>) {
                 val listItem = ArrayList<ListEntity>()
+                for (response in data) {
+                    val item = response.id?.let {
+                        ListEntity(
+                            it,
+                            null,
+                            response.name,
+                            response.posterPath,
+                            response.backdropPath,
+                            response.overview,
+                            false,
+                            "tv"
+                        )
+                    }
 
-                for (response in tvShowReponse) {
-                    val item = ListEntity(
-                        response.id,
-                        null,
-                        response.name,
-                        response.posterPath,
-                        response.backdropPath,
-                        response.overview
-                    )
-
-                    listItem.add(item)
+                    item?.let { listItem.add(it) }
                 }
-                tvShowResults.postValue(listItem)
-            }
-        })
 
-        return tvShowResults
+                localDataSource.insertFilm(listItem)
+            }
+        }.asLiveData()
     }
 
-    override fun getDetailMovies(id: Int): LiveData<DetailEntity> {
-        val detailMovieResult = MutableLiveData<DetailEntity>()
+    override fun getFavorited(): LiveData<List<ListEntity>> = localDataSource.getFavorited()
 
-        remoteDataSource.getDetailMovies(id, object : RemoteDataSource.LoadDetailMovieCallback {
-            override fun onDetailMovieReceived(movieDetailResponse: DetailResponse) {
+    override fun getDetailMovies(id: Int): LiveData<Resource<DetailEntity>> {
+        return object : NetworkBoundResource<DetailEntity, DetailResponse>(appExecutors) {
+            override fun loadFromDB(): LiveData<DetailEntity> =
+                localDataSource.getDetailById(id)
+
+            override fun shouldFetch(data: DetailEntity?): Boolean =
+                data == null
+
+            override fun createCall(): LiveData<ApiResponse<DetailResponse>> =
+                remoteDataSource.getDetailMovies(id)
+
+            override fun saveCallResult(data: DetailResponse) {
                 val detailEntity = DetailEntity(
-                    movieDetailResponse.id,
-                    movieDetailResponse.backdropPath,
-                    movieDetailResponse.title,
-                    movieDetailResponse.name,
-                    movieDetailResponse.overview
+                    data.id,
+                    data.backdropPath,
+                    data.title,
+                    data.name,
+                    data.overview
                 )
 
-                detailMovieResult.postValue(detailEntity)
+                localDataSource.insertDetail(detailEntity)
             }
-        })
 
-        return detailMovieResult
+        }.asLiveData()
     }
 
-    override fun getDetailTvShow(id: Int): LiveData<DetailEntity> {
-        val detailTvShowResponse = MutableLiveData<DetailEntity>()
+    override fun getDetailTvShow(id: Int): LiveData<Resource<DetailEntity>> {
+        return object : NetworkBoundResource<DetailEntity, DetailResponse>(appExecutors) {
+            override fun loadFromDB(): LiveData<DetailEntity> =
+                localDataSource.getDetailById(id)
 
-        remoteDataSource.getDetailTvShow(id, object : RemoteDataSource.LoadDetailTvShowCallback {
-            override fun onDetailTvShowReceived(tvShowDetailResponse: DetailResponse) {
+            override fun shouldFetch(data: DetailEntity?): Boolean =
+                data == null
+
+            override fun createCall(): LiveData<ApiResponse<DetailResponse>> =
+                remoteDataSource.getDetailTvShow(id)
+
+            override fun saveCallResult(data: DetailResponse) {
                 val detailEntity = DetailEntity(
-                    tvShowDetailResponse.id,
-                    tvShowDetailResponse.backdropPath,
-                    tvShowDetailResponse.title,
-                    tvShowDetailResponse.name,
-                    tvShowDetailResponse.overview
+                    data.id,
+                    data.backdropPath,
+                    data.title,
+                    data.name,
+                    data.overview
                 )
 
-                detailTvShowResponse.postValue(detailEntity)
+                localDataSource.insertDetail(detailEntity)
             }
 
-        })
-
-        return detailTvShowResponse
+        }.asLiveData()
     }
+
+    override fun setFilmFavorite(film: ListEntity, state: Boolean) =
+        appExecutors.diskIO().execute { localDataSource.setFilmFavorite(film, state) }
 }

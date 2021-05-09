@@ -26,6 +26,7 @@ class FavoriteActivity : AppCompatActivity() {
         supportActionBar?.apply {
             elevation = 0f
             setDisplayHomeAsUpEnabled(true)
+            title = "Favorite"
         }
 
         val factory = ViewModelFactory.getInstance(this)

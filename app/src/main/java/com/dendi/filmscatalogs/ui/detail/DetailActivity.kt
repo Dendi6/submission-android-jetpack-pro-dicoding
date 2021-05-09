@@ -131,11 +131,11 @@ class DetailActivity : AppCompatActivity() {
                 share(films)
             }
             R.id.action_bookmark -> {
-                Toast.makeText(this, "Bookmarked", Toast.LENGTH_SHORT).show()
                 val films = intent.getParcelableExtra<ListEntity>(EXTRA_DATA) as ListEntity
                 val newState = !films.favorited
 
                 detailActivityViewModel.setFavorite(films, newState)
+                message(newState)
                 setBookmarkState(newState)
             }
         }
@@ -166,6 +166,14 @@ class DetailActivity : AppCompatActivity() {
         } else {
             menuItem?.icon =
                 ContextCompat.getDrawable(this, R.drawable.ic_baseline_bookmark_border_24)
+        }
+    }
+
+    private fun message(state: Boolean){
+        if (state){
+            Toast.makeText(this, "Favorited", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(this, "deleted", Toast.LENGTH_SHORT).show()
         }
     }
 

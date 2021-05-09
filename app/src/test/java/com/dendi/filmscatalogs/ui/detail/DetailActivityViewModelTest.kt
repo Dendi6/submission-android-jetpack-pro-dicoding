@@ -6,6 +6,7 @@ import androidx.lifecycle.Observer
 import com.dendi.filmscatalogs.data.FilmRepository
 import com.dendi.filmscatalogs.data.source.local.entity.DetailEntity
 import com.dendi.filmscatalogs.utils.DataDummy
+import com.dendi.filmscatalogs.vo.Resource
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Before
@@ -32,54 +33,57 @@ class DetailActivityViewModelTest {
     private lateinit var filmRepository: FilmRepository
 
     @Mock
-    private lateinit var observer: Observer<DetailEntity>
+    private lateinit var observer: Observer<Resource<DetailEntity>>
 
     @Before
     fun setup() {
         viewModel = DetailActivityViewModel(filmRepository)
     }
 
+
     @Test
     fun loadMoviesDetail() {
-        val movies = MutableLiveData<DetailEntity>()
-        movies.value = dummyDataMovies
+        val dataDummy = Resource.success(DataDummy.generateDataDummyMovies()[0])
+        val movies = MutableLiveData<Resource<DetailEntity>>()
+        movies.value = dataDummy
 
-        viewModel.setSelectedFilm(dummyMoviesId)
+        dummyMoviesId?.let { viewModel.setSelectedFilm(it) }
 
-        `when`(filmRepository.getDetailMovies(dummyMoviesId)).thenReturn(movies)
-        val result = viewModel.getMovies().value as DetailEntity
+        `when`(dummyMoviesId?.let { filmRepository.getDetailMovies(it) }).thenReturn(movies)
+        val result = viewModel.getMovies().value?.data
 
-        verify(filmRepository).getDetailMovies(dummyMoviesId)
+        dummyMoviesId?.let { verify(filmRepository).getDetailMovies(it) }
         assertNotNull(result)
 
-        assertEquals(dummyDataMovies.id, result.id)
-        assertEquals(dummyDataMovies.title, result.title)
-        assertEquals(dummyDataMovies.name, result.name)
-        assertEquals(dummyDataMovies.poster, result.poster)
-        assertEquals(dummyDataMovies.overview, result.overview)
+        assertEquals(dummyDataMovies.id, result?.id)
+        assertEquals(dummyDataMovies.title, result?.title)
+        assertEquals(dummyDataMovies.name, result?.name)
+        assertEquals(dummyDataMovies.poster, result?.poster)
+        assertEquals(dummyDataMovies.overview, result?.overview)
 
         viewModel.getMovies().observeForever(observer)
-        verify(observer).onChanged(dummyDataMovies)
+        verify(observer).onChanged(dataDummy)
     }
 
     @Test
     fun loadTvShowDetail() {
-        val tvShow = MutableLiveData<DetailEntity>()
-        tvShow.value = dummyDataTvShow
+        val dataDummy = Resource.success(DataDummy.generateDataDummyTvShow()[0])
+        val tvShow = MutableLiveData<Resource<DetailEntity>>()
+        tvShow.value = dataDummy
 
-        viewModel.setSelectedFilm(dummyTvId)
-        `when`(filmRepository.getDetailTvShow(dummyTvId)).thenReturn(tvShow)
-        val result = viewModel.getTvShow().value as DetailEntity
-        verify(filmRepository).getDetailTvShow(dummyTvId)
+        dummyTvId?.let { viewModel.setSelectedFilm(it) }
+        `when`(dummyTvId?.let { filmRepository.getDetailTvShow(it) }).thenReturn(tvShow)
+        val result = viewModel.getTvShow().value?.data
+        dummyTvId?.let { verify(filmRepository).getDetailTvShow(it) }
 
         assertNotNull(result)
-        assertEquals(dummyDataTvShow.id, result.id)
-        assertEquals(dummyDataTvShow.title, result.title)
-        assertEquals(dummyDataTvShow.name, result.name)
-        assertEquals(dummyDataTvShow.poster, result.poster)
-        assertEquals(dummyDataTvShow.overview, result.overview)
+        assertEquals(dummyDataTvShow.id, result?.id)
+        assertEquals(dummyDataTvShow.title, result?.title)
+        assertEquals(dummyDataTvShow.name, result?.name)
+        assertEquals(dummyDataTvShow.poster, result?.poster)
+        assertEquals(dummyDataTvShow.overview, result?.overview)
 
         viewModel.getTvShow().observeForever(observer)
-        verify(observer).onChanged(dummyDataTvShow)
+        verify(observer).onChanged(dataDummy)
     }
 }

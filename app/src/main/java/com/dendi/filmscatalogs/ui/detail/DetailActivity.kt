@@ -69,9 +69,20 @@ class DetailActivity : AppCompatActivity() {
             })
         } else {
             setActionBarTitle(film.name.toString())
-            detailActivityViewModel.getTvShow().observe(this, {
-                view(it)
-                showLoading(false)
+            detailActivityViewModel.getTvShow().observe(this, { detailTv ->
+                if (detailTv != null) {
+                    when (detailTv.status) {
+                        Status.LOADING -> showLoading(true)
+                        Status.SUCCESS -> {
+                            showLoading(false)
+                            detailTv.data?.let { view(it) }
+                        }
+                        Status.ERROR -> {
+                            showLoading(false)
+                            Toast.makeText(this, "Terjadi kesalahan", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
             })
         }
     }

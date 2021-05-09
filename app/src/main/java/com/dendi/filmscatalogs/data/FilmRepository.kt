@@ -109,7 +109,7 @@ class FilmRepository private constructor(
     override fun getDetailMovies(id: Int): LiveData<Resource<DetailEntity>> {
         return object : NetworkBoundResource<DetailEntity, DetailResponse>(appExecutors) {
             override fun loadFromDB(): LiveData<DetailEntity> =
-                localDataSource.getDetailMovies(id)
+                localDataSource.getDetailById(id)
 
             override fun shouldFetch(data: DetailEntity?): Boolean =
                 data == null
@@ -132,24 +132,29 @@ class FilmRepository private constructor(
         }.asLiveData()
     }
 
-    override fun getDetailTvShow(id: Int): LiveData<DetailEntity> {
-        val detailTvShowResponse = MutableLiveData<DetailEntity>()
+    override fun getDetailTvShow(id: Int): LiveData<Resource<DetailEntity>> {
+        return object : NetworkBoundResource<DetailEntity, DetailResponse>(appExecutors) {
+            override fun loadFromDB(): LiveData<DetailEntity> =
+                localDataSource.getDetailById(id)
 
-        remoteDataSource.getDetailTvShow(id, object : RemoteDataSource.LoadDetailTvShowCallback {
-            override fun onDetailTvShowReceived(tvShowDetailResponse: DetailResponse) {
+            override fun shouldFetch(data: DetailEntity?): Boolean =
+                data == null
+
+            override fun createCall(): LiveData<ApiResponse<DetailResponse>> =
+                remoteDataSource.getDetailTvShow(id)
+
+            override fun saveCallResult(data: DetailResponse) {
                 val detailEntity = DetailEntity(
-                    tvShowDetailResponse.id,
-                    tvShowDetailResponse.backdropPath,
-                    tvShowDetailResponse.title,
-                    tvShowDetailResponse.name,
-                    tvShowDetailResponse.overview
+                    data.id,
+                    data.backdropPath,
+                    data.title,
+                    data.name,
+                    data.overview
                 )
 
-                detailTvShowResponse.postValue(detailEntity)
+                localDataSource.insertDetail(detailEntity)
             }
 
-        })
-
-        return detailTvShowResponse
+        }.asLiveData()
     }
 }

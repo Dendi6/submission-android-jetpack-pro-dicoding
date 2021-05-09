@@ -22,11 +22,8 @@ interface FilmDao {
     @Update
     fun updateFilm(films: ListEntity)
 
-    @Query("SELECT * FROM listentities WHERE id = :id")
-    fun getDetailById(id: Int): LiveData<ListEntity>
-
     @Query("SELECT * FROM detailentities WHERE id = :id")
-    fun getDetailMovies(id: Int): LiveData<DetailEntity>
+    fun getDetailById(id: Int): LiveData<DetailEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertDetailFilm(films: DetailEntity)

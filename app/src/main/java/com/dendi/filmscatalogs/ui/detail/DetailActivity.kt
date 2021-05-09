@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
@@ -14,6 +15,7 @@ import com.dendi.filmscatalogs.data.source.local.entity.DetailEntity
 import com.dendi.filmscatalogs.data.source.local.entity.ListEntity
 import com.dendi.filmscatalogs.databinding.ActivityDetailBinding
 import com.dendi.filmscatalogs.viewmodel.ViewModelFactory
+import com.dendi.filmscatalogs.vo.Status
 
 class DetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailBinding
@@ -43,16 +45,27 @@ class DetailActivity : AppCompatActivity() {
         val factory = ViewModelFactory.getInstance(this)
         val film = intent.getParcelableExtra<ListEntity>(EXTRA_DATA) as ListEntity
 
-        showLoading(true)
+//        showLoading(true)
         detailActivityViewModel =
             ViewModelProvider(this, factory)[DetailActivityViewModel::class.java]
         film.id?.let { detailActivityViewModel.setSelectedFilm(it) }
 
         if (type == "movies") {
             setActionBarTitle(film.title.toString())
-            detailActivityViewModel.getMovies().observe(this, {
-                view(it)
-                showLoading(false)
+            detailActivityViewModel.getMovies().observe(this, { detailMovies ->
+                if (detailMovies != null) {
+                    when (detailMovies.status) {
+                        Status.LOADING -> showLoading(true)
+                        Status.SUCCESS -> {
+                            showLoading(false)
+                            detailMovies.data?.let { view(it) }
+                        }
+                        Status.ERROR -> {
+                            showLoading(false)
+                            Toast.makeText(this, "Terjadi kesalahan", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
             })
         } else {
             setActionBarTitle(film.name.toString())

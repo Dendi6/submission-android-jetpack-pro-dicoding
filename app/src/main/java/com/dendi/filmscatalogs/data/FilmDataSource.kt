@@ -11,7 +11,9 @@ interface FilmDataSource {
 
     fun getAllTvShow(): LiveData<Resource<List<ListEntity>>>
 
-    fun getDetailMovies(id: Int): LiveData<DetailEntity>
+    fun getFavorited(): LiveData<List<ListEntity>>
+
+    fun getDetailMovies(id: Int): LiveData<Resource<DetailEntity>>
 
     fun getDetailTvShow(id: Int): LiveData<DetailEntity>
 }

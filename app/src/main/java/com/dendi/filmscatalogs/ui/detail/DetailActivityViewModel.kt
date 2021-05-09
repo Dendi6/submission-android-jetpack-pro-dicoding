@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.dendi.filmscatalogs.data.FilmRepository
 import com.dendi.filmscatalogs.data.source.local.entity.DetailEntity
+import com.dendi.filmscatalogs.vo.Resource
 
 class DetailActivityViewModel(private val filmRepository: FilmRepository) : ViewModel() {
     private var id: Int = 0
@@ -12,7 +13,7 @@ class DetailActivityViewModel(private val filmRepository: FilmRepository) : View
         this.id = id
     }
 
-    fun getMovies(): LiveData<DetailEntity> = filmRepository.getDetailMovies(id)
+    fun getMovies(): LiveData<Resource<DetailEntity>> = filmRepository.getDetailMovies(id)
 
     fun getTvShow(): LiveData<DetailEntity> = filmRepository.getDetailTvShow(id)
 }

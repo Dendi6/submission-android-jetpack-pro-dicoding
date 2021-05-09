@@ -3,6 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/action_bookmark"
+        android:icon="@drawable/ic_bookmark_selector"
+        android:title="@string/favorited"
+        app:showAsAction="ifRoom" />
+
+    <item
         android:id="@+id/share"
         android:icon="@drawable/ic_baseline_share_24"
         android:title="@string/share"

@@ -1,10 +1,8 @@
 package com.dendi.filmscatalogs.data.source.local.room
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
+import com.dendi.filmscatalogs.data.source.local.entity.DetailEntity
 import com.dendi.filmscatalogs.data.source.local.entity.ListEntity
 
 @Dao
@@ -19,5 +17,17 @@ interface FilmDao {
     fun getFavorite(): LiveData<List<ListEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertFilm(courses: List<ListEntity>)
+    fun insertFilm(films: List<ListEntity>)
+
+    @Update
+    fun updateFilm(films: ListEntity)
+
+    @Query("SELECT * FROM listentities WHERE id = :id")
+    fun getDetailById(id: Int): LiveData<ListEntity>
+
+    @Query("SELECT * FROM detailentities WHERE id = :id")
+    fun getDetailMovies(id: Int): LiveData<DetailEntity>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertDetailFilm(films: DetailEntity)
 }

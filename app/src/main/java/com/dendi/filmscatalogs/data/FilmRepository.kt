@@ -104,24 +104,32 @@ class FilmRepository private constructor(
         }.asLiveData()
     }
 
-    override fun getDetailMovies(id: Int): LiveData<DetailEntity> {
-        val detailMovieResult = MutableLiveData<DetailEntity>()
+    override fun getFavorited(): LiveData<List<ListEntity>> = localDataSource.getFavorited()
 
-        remoteDataSource.getDetailMovies(id, object : RemoteDataSource.LoadDetailMovieCallback {
-            override fun onDetailMovieReceived(movieDetailResponse: DetailResponse) {
+    override fun getDetailMovies(id: Int): LiveData<Resource<DetailEntity>> {
+        return object : NetworkBoundResource<DetailEntity, DetailResponse>(appExecutors) {
+            override fun loadFromDB(): LiveData<DetailEntity> =
+                localDataSource.getDetailMovies(id)
+
+            override fun shouldFetch(data: DetailEntity?): Boolean =
+                data == null
+
+            override fun createCall(): LiveData<ApiResponse<DetailResponse>> =
+                remoteDataSource.getDetailMovies(id)
+
+            override fun saveCallResult(data: DetailResponse) {
                 val detailEntity = DetailEntity(
-                    movieDetailResponse.id,
-                    movieDetailResponse.backdropPath,
-                    movieDetailResponse.title,
-                    movieDetailResponse.name,
-                    movieDetailResponse.overview
+                    data.id,
+                    data.backdropPath,
+                    data.title,
+                    data.name,
+                    data.overview
                 )
 
-                detailMovieResult.postValue(detailEntity)
+                localDataSource.insertDetail(detailEntity)
             }
-        })
 
-        return detailMovieResult
+        }.asLiveData()
     }
 
     override fun getDetailTvShow(id: Int): LiveData<DetailEntity> {

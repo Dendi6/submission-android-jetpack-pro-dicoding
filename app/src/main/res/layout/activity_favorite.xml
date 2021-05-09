@@ -6,4 +6,26 @@
     android:layout_height="match_parent"
     tools:context=".ui.favorite.FavoriteActivity">
 
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/empty_images"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/empty"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_items"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:listitem="@layout/films_item" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

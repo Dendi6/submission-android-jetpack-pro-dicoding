@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.dendi.filmscatalogs.data.FilmRepository
 import com.dendi.filmscatalogs.di.Injection
 import com.dendi.filmscatalogs.ui.detail.DetailActivityViewModel
+import com.dendi.filmscatalogs.ui.favorite.FavoriteViewModel
 import com.dendi.filmscatalogs.ui.home.HomeViewModel
 
 class ViewModelFactory private constructor(private val mFilmsRepository: FilmRepository) :
@@ -28,6 +29,9 @@ class ViewModelFactory private constructor(private val mFilmsRepository: FilmRep
         return when {
             modelClass.isAssignableFrom(HomeViewModel::class.java) -> {
                 HomeViewModel(mFilmsRepository) as T
+            }
+            modelClass.isAssignableFrom(FavoriteViewModel::class.java) -> {
+                FavoriteViewModel(mFilmsRepository) as T
             }
             modelClass.isAssignableFrom(DetailActivityViewModel::class.java) -> {
                 DetailActivityViewModel(mFilmsRepository) as T

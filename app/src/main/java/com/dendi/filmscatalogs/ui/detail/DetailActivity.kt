@@ -7,6 +7,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.dendi.filmscatalogs.BuildConfig
@@ -20,6 +21,8 @@ import com.dendi.filmscatalogs.vo.Status
 class DetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailBinding
     private lateinit var detailActivityViewModel: DetailActivityViewModel
+
+    private var menu: Menu? = null
 
     companion object {
         const val EXTRA_DATA = "extra_data"
@@ -43,7 +46,8 @@ class DetailActivity : AppCompatActivity() {
         val factory = ViewModelFactory.getInstance(this)
         val film = intent.getParcelableExtra<ListEntity>(EXTRA_DATA) as ListEntity
 
-        detailActivityViewModel = ViewModelProvider(this, factory)[DetailActivityViewModel::class.java]
+        detailActivityViewModel =
+            ViewModelProvider(this, factory)[DetailActivityViewModel::class.java]
         detailActivityViewModel.setSelectedFilm(film.id)
 
         if (film.type == "movies") {
@@ -107,6 +111,11 @@ class DetailActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.detail_menu, menu)
+
+        this.menu = menu
+        val films = intent.getParcelableExtra<ListEntity>(EXTRA_DATA) as ListEntity
+        setBookmarkState(films.favorited)
+
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -122,7 +131,12 @@ class DetailActivity : AppCompatActivity() {
                 share(films)
             }
             R.id.action_bookmark -> {
-                Toast.makeText(this,"Bookmarked",Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Bookmarked", Toast.LENGTH_SHORT).show()
+                val films = intent.getParcelableExtra<ListEntity>(EXTRA_DATA) as ListEntity
+                val newState = !films.favorited
+
+                detailActivityViewModel.setFavorite(films, newState)
+                setBookmarkState(newState)
             }
         }
     }
@@ -142,6 +156,17 @@ class DetailActivity : AppCompatActivity() {
 
         binding.titleDetail.text = text
         binding.overview.text = data.overview
+    }
+
+    private fun setBookmarkState(state: Boolean) {
+        if (menu == null) return
+        val menuItem = menu?.findItem(R.id.action_bookmark)
+        if (state) {
+            menuItem?.icon = ContextCompat.getDrawable(this, R.drawable.ic_baseline_bookmark_24)
+        } else {
+            menuItem?.icon =
+                ContextCompat.getDrawable(this, R.drawable.ic_baseline_bookmark_border_24)
+        }
     }
 
     private fun share(listEntity: ListEntity) {

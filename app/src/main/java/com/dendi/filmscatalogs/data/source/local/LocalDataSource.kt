@@ -26,4 +26,10 @@ class LocalDataSource private constructor(private val mFilmDao: FilmDao) {
     fun getDetailById(id: Int): LiveData<DetailEntity> = mFilmDao.getDetailById(id)
 
     fun insertDetail(film: DetailEntity) = mFilmDao.insertDetailFilm(film)
+
+    //udpate
+    fun setFilmFavorite(film: ListEntity, newState: Boolean) {
+        film.favorited = newState
+        mFilmDao.updateFilm(film)
+    }
 }

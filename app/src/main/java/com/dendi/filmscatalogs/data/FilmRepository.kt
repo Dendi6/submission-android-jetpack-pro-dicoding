@@ -1,7 +1,6 @@
 package com.dendi.filmscatalogs.data
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.dendi.filmscatalogs.data.source.local.LocalDataSource
 import com.dendi.filmscatalogs.data.source.local.entity.DetailEntity
 import com.dendi.filmscatalogs.data.source.local.entity.ListEntity
@@ -157,4 +156,7 @@ class FilmRepository private constructor(
 
         }.asLiveData()
     }
+
+    override fun setFilmFavorite(film: ListEntity, state: Boolean) =
+        appExecutors.diskIO().execute { localDataSource.setFilmFavorite(film, state) }
 }

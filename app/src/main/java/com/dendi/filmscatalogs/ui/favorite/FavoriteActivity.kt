@@ -33,9 +33,9 @@ class FavoriteActivity : AppCompatActivity() {
         favoriteViewModel = ViewModelProvider(this, factory)[FavoriteViewModel::class.java]
 
         val adapter = FavoriteAdapter()
-        binding.rvItems.layoutManager = GridLayoutManager(this, 3)
-        binding.rvItems.setHasFixedSize(true)
-        binding.rvItems.adapter = adapter
+        binding.rvFavorited.layoutManager = GridLayoutManager(this, 3)
+        binding.rvFavorited.setHasFixedSize(true)
+        binding.rvFavorited.adapter = adapter
 
         favoriteViewModel.getFavorite().observe(this, { items ->
             if(items.isEmpty()){

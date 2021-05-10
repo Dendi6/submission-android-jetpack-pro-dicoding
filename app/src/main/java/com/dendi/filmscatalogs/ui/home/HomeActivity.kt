@@ -51,7 +51,7 @@ class HomeActivity : AppCompatActivity() {
 
     private fun setMode(selectedMode: Int) {
         when (selectedMode) {
-            R.id.bookmark -> {
+            R.id.favorited -> {
                 val intent = Intent(this, FavoriteActivity::class.java)
                 startActivity(intent)
             }

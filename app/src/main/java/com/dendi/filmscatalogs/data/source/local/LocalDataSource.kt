@@ -1,6 +1,7 @@
 package com.dendi.filmscatalogs.data.source.local
 
 import androidx.lifecycle.LiveData
+import androidx.paging.DataSource
 import com.dendi.filmscatalogs.data.source.local.entity.DetailEntity
 import com.dendi.filmscatalogs.data.source.local.entity.ListEntity
 import com.dendi.filmscatalogs.data.source.local.room.FilmDao
@@ -14,11 +15,11 @@ class LocalDataSource private constructor(private val mFilmDao: FilmDao) {
     }
 
     //list
-    fun getMovies(): LiveData<List<ListEntity>> = mFilmDao.getMovies()
+    fun getMovies(): DataSource.Factory<Int, ListEntity> = mFilmDao.getMovies()
 
-    fun getTvShow(): LiveData<List<ListEntity>> = mFilmDao.getTvShow()
+    fun getTvShow(): DataSource.Factory<Int, ListEntity> = mFilmDao.getTvShow()
 
-    fun getFavorited(): LiveData<List<ListEntity>> = mFilmDao.getFavorite()
+    fun getFavorited(): DataSource.Factory<Int, ListEntity> = mFilmDao.getFavorite()
 
     fun insertFilm(film: List<ListEntity>) = mFilmDao.insertFilm(film)
 

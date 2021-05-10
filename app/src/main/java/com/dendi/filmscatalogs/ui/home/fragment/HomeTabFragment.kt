@@ -59,7 +59,7 @@ class HomeTabFragment : Fragment() {
                         Status.LOADING -> progressBar.visibility = View.VISIBLE
                         Status.SUCCESS -> {
                             progressBar.visibility = View.GONE
-                            listMovie.data?.let { homeAdapter.setData(it) }
+                            homeAdapter.submitList(listMovie.data)
                         }
                         Status.ERROR -> {
                             progressBar.visibility = View.GONE
@@ -75,7 +75,7 @@ class HomeTabFragment : Fragment() {
                         Status.LOADING -> progressBar.visibility = View.VISIBLE
                         Status.SUCCESS -> {
                             progressBar.visibility = View.GONE
-                            listTvShow.data?.let { homeAdapter.setData(it) }
+                            homeAdapter.submitList(listTvShow.data)
                         }
                         Status.ERROR -> {
                             progressBar.visibility = View.GONE

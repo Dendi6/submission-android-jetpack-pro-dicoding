@@ -169,8 +169,8 @@ class DetailActivity : AppCompatActivity() {
         }
     }
 
-    private fun message(state: Boolean){
-        if (state){
+    private fun message(state: Boolean) {
+        if (state) {
             Toast.makeText(this, "Favorited", Toast.LENGTH_SHORT).show()
         } else {
             Toast.makeText(this, "deleted", Toast.LENGTH_SHORT).show()

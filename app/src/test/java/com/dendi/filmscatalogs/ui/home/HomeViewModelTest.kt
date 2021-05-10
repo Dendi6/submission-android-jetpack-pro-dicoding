@@ -7,7 +7,8 @@ import com.dendi.filmscatalogs.data.FilmRepository
 import com.dendi.filmscatalogs.data.source.local.entity.ListEntity
 import com.dendi.filmscatalogs.utils.DataDummy
 import com.dendi.filmscatalogs.vo.Resource
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -37,7 +38,7 @@ class HomeViewModelTest {
     }
 
     @Test
-    fun getMovies(){
+    fun getMovies() {
         val dummyMovies = Resource.success(DataDummy.generateDummyMovies())
         val movies = MutableLiveData<Resource<List<ListEntity>>>()
         movies.value = dummyMovies
@@ -54,7 +55,7 @@ class HomeViewModelTest {
     }
 
     @Test
-    fun getTvShow(){
+    fun getTvShow() {
         val dummyTvShow = Resource.success(DataDummy.generateDummyTvShow())
         val tvShow = MutableLiveData<Resource<List<ListEntity>>>()
         tvShow.value = dummyTvShow

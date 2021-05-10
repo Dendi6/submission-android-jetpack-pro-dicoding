@@ -8,7 +8,9 @@
 
     <string name="title">Title</string>S
     <string name="overview">Overview</string>
-    <!-- TODO: Remove or change this placeholder text -->
+    <string name="message_undo">Batalkan menghapus item sebelumnya?</string>
+    <string name="message_ok">OK</string>
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <!-- TODO: Remove or change this placeholder text -->
 </resources>

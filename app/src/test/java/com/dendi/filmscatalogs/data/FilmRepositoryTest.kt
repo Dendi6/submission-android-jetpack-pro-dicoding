@@ -90,7 +90,8 @@ class FilmRepositoryTest {
         dummyMovie.value = dataMovie
         `when`(dataMovie.id?.let { local.getDetailById(it) }).thenReturn(dummyMovie)
 
-        val moviesEntities = LiveDataTestUtil.getValue(filmRepository.getDetailMovies(dataMovie.id!!))
+        val moviesEntities =
+            LiveDataTestUtil.getValue(filmRepository.getDetailMovies(dataMovie.id!!))
         verify(local).getDetailById(dataMovie.id!!)
 
         assertNotNull(moviesEntities)

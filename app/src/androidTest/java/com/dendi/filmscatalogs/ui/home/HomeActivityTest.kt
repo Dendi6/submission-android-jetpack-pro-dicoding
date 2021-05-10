@@ -122,7 +122,12 @@ class HomeActivityTest {
 
         onView(withId(R.id.favorited)).perform(click())
         onView(withId(R.id.rv_favorited)).check(matches(isDisplayed()))
-        onView(withId(R.id.rv_favorited)).perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
+        onView(withId(R.id.rv_favorited)).perform(
+            RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
+                0,
+                click()
+            )
+        )
 
         onView(withId(R.id.title_detail)).check(matches(isDisplayed()))
         onView(withId(R.id.title_detail)).check(matches(withText(dummyMovie[0].title)))

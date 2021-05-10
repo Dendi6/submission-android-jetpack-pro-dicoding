@@ -18,5 +18,6 @@ class DetailActivityViewModel(private val filmRepository: FilmRepository) : View
 
     fun getTvShow(): LiveData<Resource<DetailEntity>> = filmRepository.getDetailTvShow(id)
 
-    fun setFavorite(filmEntity: ListEntity, newState: Boolean) = filmRepository.setFilmFavorite(filmEntity, newState)
+    fun setFavorite(filmEntity: ListEntity, newState: Boolean) =
+        filmRepository.setFilmFavorite(filmEntity, newState)
 }

@@ -3,6 +3,8 @@ package com.dendi.filmscatalogs.ui.favorite
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagedListAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.dendi.filmscatalogs.BuildConfig
@@ -10,25 +12,34 @@ import com.dendi.filmscatalogs.data.source.local.entity.ListEntity
 import com.dendi.filmscatalogs.databinding.FilmsItemBinding
 import com.dendi.filmscatalogs.ui.detail.DetailActivity
 
-class FavoriteAdapter : RecyclerView.Adapter<FavoriteAdapter.ContentViewHolder>() {
-    private var mData = ArrayList<ListEntity>()
+class FavoriteAdapter :
+    PagedListAdapter<ListEntity, FavoriteAdapter.ContentViewHolder>(DIFF_CALLBACK) {
+    companion object {
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<ListEntity>() {
+            override fun areItemsTheSame(oldItem: ListEntity, newItem: ListEntity): Boolean {
+                return oldItem.id == newItem.id
+            }
 
-    fun setData(list: List<ListEntity>) {
-        mData.clear()
-        mData.addAll(list)
-        notifyDataSetChanged()
+            override fun areContentsTheSame(oldItem: ListEntity, newItem: ListEntity): Boolean {
+                return oldItem == newItem
+            }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContentViewHolder {
-        val itemsMovies = FilmsItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val itemsMovies =
+            FilmsItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ContentViewHolder(itemsMovies)
     }
 
     override fun onBindViewHolder(holder: ContentViewHolder, position: Int) {
-        holder.bind(mData[position])
+        val favorite = getItem(position)
+        if (favorite != null) {
+            holder.bind(favorite)
+        }
     }
 
-    override fun getItemCount(): Int = mData.size
+    fun getSwipedData(swipedPosition: Int): ListEntity? = getItem(swipedPosition)
 
     inner class ContentViewHolder(private val binding: FilmsItemBinding) :
         RecyclerView.ViewHolder(binding.root) {

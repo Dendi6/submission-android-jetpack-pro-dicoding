@@ -14,7 +14,6 @@ class LocalDataSource private constructor(private val mFilmDao: FilmDao) {
             INSTANCE ?: LocalDataSource(filmDao).apply { INSTANCE = this }
     }
 
-    //list
     fun getMovies(): DataSource.Factory<Int, ListEntity> = mFilmDao.getMovies()
 
     fun getTvShow(): DataSource.Factory<Int, ListEntity> = mFilmDao.getTvShow()
@@ -23,12 +22,10 @@ class LocalDataSource private constructor(private val mFilmDao: FilmDao) {
 
     fun insertFilm(film: List<ListEntity>) = mFilmDao.insertFilm(film)
 
-    //detail
     fun getDetailById(id: Int): LiveData<DetailEntity> = mFilmDao.getDetailById(id)
 
     fun insertDetail(film: DetailEntity) = mFilmDao.insertDetailFilm(film)
 
-    //udpate
     fun setFilmFavorite(film: ListEntity, newState: Boolean) {
         film.favorited = newState
         mFilmDao.updateFilm(film)

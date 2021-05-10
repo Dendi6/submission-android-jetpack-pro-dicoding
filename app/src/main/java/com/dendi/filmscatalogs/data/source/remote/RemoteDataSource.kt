@@ -28,7 +28,6 @@ class RemoteDataSource {
         EspressoIdlingResource.increment()
         val resultFilm = MutableLiveData<ApiResponse<List<ListResponse>>>()
 
-        //api request
         val client = ApiConfig.getApiService().getMovies()
         client.enqueue(object : Callback<ResponseItem> {
             override fun onResponse(
@@ -57,7 +56,6 @@ class RemoteDataSource {
         EspressoIdlingResource.increment()
         val resultFilm = MutableLiveData<ApiResponse<List<ListResponse>>>()
 
-        //api request
         val client = ApiConfig.getApiService().getTv()
         client.enqueue(object : Callback<ResponseItem> {
             override fun onResponse(
@@ -114,7 +112,6 @@ class RemoteDataSource {
         EspressoIdlingResource.increment()
         val resultDetail = MutableLiveData<ApiResponse<DetailResponse>>()
 
-        //api request
         val client = ApiConfig.getApiService().detailTv(id)
         client.enqueue(object : Callback<DetailResponse> {
             override fun onResponse(

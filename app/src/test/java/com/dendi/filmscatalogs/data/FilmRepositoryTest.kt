@@ -17,8 +17,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Rule
 import org.junit.Test
-import org.mockito.Mockito.`when`
-import org.mockito.Mockito.mock
+import org.mockito.Mockito.*
 
 class FilmRepositoryTest {
     @get:Rule
@@ -121,5 +120,41 @@ class FilmRepositoryTest {
 
         assertNotNull(tvEntities)
         assertEquals(dataTvShow.id, tvEntities.data?.id)
+    }
+
+    @Test
+    fun setFavoriteMovies() {
+        val dataDummy = DataDummy.generateDummyMovies()[0].copy(favorited = false)
+        doNothing().`when`(local).setFilmFavorite(dataDummy, true)
+        filmRepository.setFilmFavorite(dataDummy, true)
+
+        verify(local, times(1)).setFilmFavorite(dataDummy, true)
+    }
+
+    @Test
+    fun detFavoriteMovies() {
+        val dataDummy = DataDummy.generateDummyMovies()[0].copy(favorited = true)
+        doNothing().`when`(local).setFilmFavorite(dataDummy, false)
+        filmRepository.setFilmFavorite(dataDummy, false)
+
+        verify(local, times(1)).setFilmFavorite(dataDummy, false)
+    }
+
+    @Test
+    fun setFavoriteTvShow() {
+        val dataDummy = DataDummy.generateDummyTvShow()[0].copy(favorited = false)
+        doNothing().`when`(local).setFilmFavorite(dataDummy, true)
+        filmRepository.setFilmFavorite(dataDummy, true)
+
+        verify(local, times(1)).setFilmFavorite(dataDummy, true)
+    }
+
+    @Test
+    fun delFavoriteTvShow() {
+        val dataDummy = DataDummy.generateDummyTvShow()[0].copy(favorited = true)
+        doNothing().`when`(local).setFilmFavorite(dataDummy, false)
+        filmRepository.setFilmFavorite(dataDummy, false)
+
+        verify(local, times(1)).setFilmFavorite(dataDummy, false)
     }
 }

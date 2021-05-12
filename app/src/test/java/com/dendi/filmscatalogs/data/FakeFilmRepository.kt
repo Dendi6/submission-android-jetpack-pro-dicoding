@@ -168,5 +168,5 @@ class FakeFilmRepository constructor(
     }
 
     override fun setFilmFavorite(film: ListEntity, state: Boolean) =
-        appExecutors.diskIO().execute { localDataSource.setFilmFavorite(film, state) }
+        localDataSource.setFilmFavorite(film, state)
 }

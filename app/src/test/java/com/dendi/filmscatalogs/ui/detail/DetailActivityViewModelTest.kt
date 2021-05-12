@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.dendi.filmscatalogs.data.FilmRepository
 import com.dendi.filmscatalogs.data.source.local.entity.DetailEntity
+import com.dendi.filmscatalogs.data.source.local.entity.ListEntity
 import com.dendi.filmscatalogs.utils.DataDummy
 import com.dendi.filmscatalogs.vo.Resource
 import org.junit.Assert.assertEquals
@@ -14,8 +15,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
-import org.mockito.Mockito.`when`
-import org.mockito.Mockito.verify
+import org.mockito.Mockito.*
 import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
@@ -85,5 +85,29 @@ class DetailActivityViewModelTest {
 
         viewModel.getTvShow().observeForever(observer)
         verify(observer).onChanged(dataDummy)
+    }
+
+    @Test
+    fun setFavorite() {
+        val dummyData = Resource.success(DataDummy.generateDummyMovies()[0].copy(favorited = false))
+        val dataItem = MutableLiveData<Resource<ListEntity>>()
+        dataItem.value = dummyData
+
+        dummyData.data?.let { doNothing().`when`(filmRepository).setFilmFavorite(it, true) }
+        dataItem.value!!.data?.let { viewModel.setFavorite(it, true) }
+
+        verify(filmRepository).setFilmFavorite(dataItem.value?.data as ListEntity, true)
+    }
+
+    @Test
+    fun delFavorite() {
+        val dummyData = Resource.success(DataDummy.generateDummyMovies()[0].copy(favorited = true))
+        val dataItem = MutableLiveData<Resource<ListEntity>>()
+        dataItem.value = dummyData
+
+        dummyData.data?.let { doNothing().`when`(filmRepository).setFilmFavorite(it, false) }
+        dataItem.value!!.data?.let { viewModel.setFavorite(it, false) }
+
+        verify(filmRepository).setFilmFavorite(dataItem.value?.data as ListEntity, false)
     }
 }

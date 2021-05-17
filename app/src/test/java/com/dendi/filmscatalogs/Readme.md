@@ -27,7 +27,7 @@
         2. Memastikan metode di kelas repository terpanggil.
         3. Memastikan data pilihan tidak null.
         4. Memastikan data pilihan sesuai dengan yang diharapkan.
-        5. Memastikan metod favorite di kelas repository terpanggil.
+        5. Memastikan metode favorite di kelas repository terpanggil.
 
 * FavoriteViewModel
     - Memuat data Favorite :
